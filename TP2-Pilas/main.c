@@ -4,13 +4,15 @@
 
 void menu();
 void cargarValores(int aux, Pila* pilita);
-void pasarValores(Pila *pilita, Pila *pilaux);
-void conservarOrden(Pila *pilita, Pila *pilaux, Pila *pila2);
-void invertirPila(Pila *pilita, Pila *pilaux, Pila *pila2);
+void pasarValores(Pila *pilita, Pila *pila2);
+void conservarOrden(Pila *pilita, Pila *pila2);
+void invertirPila(Pila *pilita);
+int busqueda(Pila pilita, int aux);
+void eliminar(Pila *pilita, int aux);
+
 
 int main()
 {
-
     menu();
     return 0;
 }
@@ -18,11 +20,9 @@ int main()
 void menu()
 {
     int op;
-    int aux=0;
+    int aux=0, aux2=0;
     Pila pilita;
     inicpila(&pilita);
-    Pila pilaux;
-    inicpila(&pilaux);
     Pila pila2;
     inicpila(&pila2);
     do
@@ -32,8 +32,11 @@ void menu()
         printf("[2] PASAR DE UNA PILA A OTRA    \n");
         printf("[3] PASAR CONSERVANDO VALORES   \n");
         printf("[4] INVERTIR PILA               \n");
-        printf("[5]                             \n");
-        printf("[6]                             \n");
+        printf("[5] FUNCION DE BUSQUEDA         \n");
+        printf("[6] FUNCION DE ELIMINACION      \n");
+        printf("[7] ELIMINAR MENOR              \n");
+        printf("[8] PILA ORDENADA               \n");
+        printf("[9] PROMEDIO PILA               \n");
         printf("--------------------------------\n");
         scanf("%i", &op);
         system("cls");
@@ -49,26 +52,51 @@ void menu()
                 scanf("%i", &aux);
                 cargarValores(aux, &pilita);
                 system("cls");
+                mostrar(&pilita);
             }break;
 
             case 2:
             {
-                pasarValores(&pilita, &pilaux);
+                pasarValores(&pilita, &pila2);
+                mostrar(&pilita);
+                mostrar(&pila2);
             }break;
 
             case 3:
             {
-                conservarOrden(&pilita, &pilaux, &pila2);
+                conservarOrden(&pilita, &pila2);
+                mostrar(&pilita);
+                mostrar(&pila2);
             }break;
 
             case 4:
             {
-                invertirPila(&pilita, &pilaux, &pila2);
+                invertirPila(&pilita);
+                mostrar(&pilita);
             }break;
 
             case 5:
             {
-
+                printf("Que elemento desea buscar?: \n");
+                scanf("%i", &aux);
+                aux2 = busqueda(pilita, aux);
+                if(aux2==1)
+                {
+                    printf("Se encontro el valor %i\n", aux);
+                    mostrar(&pilita);
+                }else
+                {
+                    printf("No se encontro el valor %i\n", aux);
+                    mostrar(&pilita);
+                }
+            }break;
+            case 6:
+            {
+                printf("Ingrese el elemento que desea eliminar: \n");
+                scanf("%i", &aux);
+                mostrar(&pilita);
+                eliminar(&pilita, aux);
+                mostrar(&pilita);
             }break;
         }
     }while(op!=0);
@@ -83,23 +111,63 @@ void cargarValores(int aux, Pila* pilita)
     }
 }
 
-void pasarValores(Pila *pilita, Pila *pilaux)
+void pasarValores(Pila *pilita, Pila *pila2)
 {
     while(pilavacia(pilita)==0)
     {
-        apilar(pilaux, desapilar(pilita));
+        apilar(pila2, desapilar(pilita));
     }
 }
 
-void conservarOrden(Pila *pilita, Pila *pilaux, Pila *pila2)
+void conservarOrden(Pila *pilita, Pila *pila2)
 {
-    pasarValores(pilita, pilaux);
-    pasarValores(pilaux, pila2);
+    Pila pilaux;
+    inicpila(&pilaux);
+    pasarValores(pilita, &pilaux);
+    pasarValores(&pilaux, pilita);
 }
 
-void invertirPila(Pila *pilita, Pila *pilaux, Pila *pila2)
+void invertirPila(Pila *pilita)
 {
-    conservarOrden(pilita, pilaux, pila2);
-    pasarValores(pila2, pilita);
+    Pila pila2;
+    inicpila(&pila2);
+    conservarOrden(pilita, &pila2);
+    pasarValores(&pila2, pilita);
 }
 
+int busqueda(Pila pilita, int aux)
+{
+    Pila pilaux;
+    inicpila(&pilaux);
+    int i=0;
+    while(pilavacia(&pilita) == 0 && i==0)
+    {
+        if(tope(&pilita)==aux)
+        {
+            i=1;
+        }
+        apilar(&pilaux, desapilar(&pilita));
+    }
+    return i;
+}
+
+void eliminar(Pila *pilita, int aux)
+{
+    Pila pilaux;
+    inicpila(&pilaux);
+    while(pilavacia(pilita) == 0)
+    {
+        if(tope(pilita)==aux)
+        {
+            desapilar(pilita);
+        }
+        else
+        {
+         apilar(&pilaux, desapilar(pilita));
+        }
+    }
+    while(pilavacia(&pilaux) == 0)
+    {
+        apilar(pilita, desapilar(&pilaux));
+    }
+}
