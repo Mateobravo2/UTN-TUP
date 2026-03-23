@@ -8,6 +8,7 @@ void repartirAlternado(Pila mazo, Pila *jugador1, Pila *jugador2);
 
 void eliminarElementos(Pila *pilita);
 void eliminarTodos(Pila *modelo);
+Pila mayoresMenores(Pila original, Pila *mayores, int val);
 
 int main()
 {
@@ -95,7 +96,7 @@ void menu()
                     system("cls");
                     }else
                     {
-                        printf("~ ~ ~ LA PILA ESTÁ VACIA ~ ~ ~");
+                        printf("~ ~ ~ LA PILA ESTÃ VACIA ~ ~ ~");
                     }
                 }break;
             case 6:
@@ -109,16 +110,39 @@ void menu()
                     system("cls");
                     }else
                     {
-                        printf("~ ~ ~ LA PILA ESTÁ VACIA ~ ~ ~");
+                        printf("~ ~ ~ LA PILA ESTÃ VACIA ~ ~ ~");
                     }
+                }break;
+            case 7:
+                {
+                    int val;
+                    Pila mayores;
+                    inicpila(&mayores);
+                    Pila menores;
+                    inicpila(&menores);
+                    printf("Que valor desea elegir como divisor?\n");
+                    scanf("%i", &val);
+                    menores=mayoresMenores(pilita, &mayores, val);
+                    printf("\nPila original: ");
+                    mostrar(&pilita);
+                    printf("Pila MAYORES: ");
+                    mostrar(&mayores);
+                    printf("Pila MENORES: ");
+                    mostrar(&menores);
+                    system("pause");
+                    system("cls");
+                }break;
+            case 8:
+                {
+
                 }break;
         }
     }while(op!=0);
 }
 
 /*
-Hacer una función que pase el primer elemento (tope) de una pila a su última
-posición (base), dejando los restantes elementos en el mismo orden. Retornar la
+Hacer una funciÃ³n que pase el primer elemento (tope) de una pila a su Ãºltima
+posiciÃ³n (base), dejando los restantes elementos en el mismo orden. Retornar la
 Pila o usar puntero para modificar la misma.
 */
 void pasarTopeABase(Pila *pilita)
@@ -140,10 +164,10 @@ void pasarTopeABase(Pila *pilita)
 }
 
 /*
-Hacer una función que reparta los elementos de la pila MAZO en las pilas
-JUGADOR1 y JUGADOR2 en forma alternada. Como el retorno de la función es
-único, las Pilas correspondientes a los Jugadores deberán ser ingresadas como
-parámetros por referencia, o una de las Pilas deberá ser retornada y la otra
+Hacer una funciÃ³n que reparta los elementos de la pila MAZO en las pilas
+JUGADOR1 y JUGADOR2 en forma alternada. Como el retorno de la funciÃ³n es
+Ãºnico, las Pilas correspondientes a los Jugadores deberÃ¡n ser ingresadas como
+parÃ¡metros por referencia, o una de las Pilas deberÃ¡ ser retornada y la otra
 modificada por medio de puntero.
 */
 void repartirAlternado(Pila mazo, Pila *jugador1, Pila *jugador2)
@@ -156,10 +180,10 @@ void repartirAlternado(Pila mazo, Pila *jugador1, Pila *jugador2)
 }
 
 /*
-Hacer una función que compare la cantidad de elementos de dos pilas A y B. La
-función deberá retornar -1 si la Pila A tiene más elementos, 0 si ambas pilas
-tienen la misma cantidad de elementos o 1 si la Pila B tiene más elementos. En el
-Main se evaluará este resultado para informar al usuario cuál Pila tiene más
+Hacer una funciÃ³n que compare la cantidad de elementos de dos pilas A y B. La
+funciÃ³n deberÃ¡ retornar -1 si la Pila A tiene mÃ¡s elementos, 0 si ambas pilas
+tienen la misma cantidad de elementos o 1 si la Pila B tiene mÃ¡s elementos. En el
+Main se evaluarÃ¡ este resultado para informar al usuario cuÃ¡l Pila tiene mÃ¡s
 elementos. El ejercicio debe resolverse SIN CONTAR los elementos de las
 Pilas.
 */
@@ -169,10 +193,10 @@ void compararCantidad()
 }
 
 /*
-Hacer una función que compare dos pilas A y B para ver si son completamente
-iguales (en cantidad de elementos, valores que contienen y posición de los
-mismos). La función deberá retornar 0 o 1, y en el Main se evaluará este
-resultado para informar al usuario si las pilas son exáctamente iguales o no. El
+Hacer una funciÃ³n que compare dos pilas A y B para ver si son completamente
+iguales (en cantidad de elementos, valores que contienen y posiciÃ³n de los
+mismos). La funciÃ³n deberÃ¡ retornar 0 o 1, y en el Main se evaluarÃ¡ este
+resultado para informar al usuario si las pilas son exÃ¡ctamente iguales o no. El
 ejercicio debe resolverse SIN CONTAR los elementos de las Pilas.
 */
 void pilasIguales()
@@ -181,7 +205,7 @@ void pilasIguales()
 }
 
 /*
-Hacer una función que reciba una pila MODELO (vacía o no), y elimine de la pila
+Hacer una funciÃ³n que reciba una pila MODELO (vacÃ­a o no), y elimine de la pila
 DADA todos los elementos que sean iguales al TOPE de la pila MODELO.
 */
 void eliminarElementos(Pila *modelo)
@@ -214,7 +238,7 @@ void eliminarElementos(Pila *modelo)
 }
 
 /*
-Hacer una función que reciba una pila MODELO (vacía o no), y elimine de la pila
+Hacer una funciÃ³n que reciba una pila MODELO (vacÃ­a o no), y elimine de la pila
 DADA todos los elementos que existan en la pila MODELO.
 */
 void eliminarTodos(Pila *modelo)
@@ -257,4 +281,36 @@ void eliminarTodos(Pila *modelo)
     {
         apilar(modelo, desapilar(&pilaux));
     }
+}
+
+/*
+Hacer una funciÃ³n que reciba por parÃ¡metro una Pila y un valor elegido por el
+usuario del sistema. La funciÃ³n debe pasar a la pila MAYORES los elementos de
+la pila que sean mayores o iguales a dicho valor elegido, y a la pila MENORES
+los elementos que sean menores. Como el retorno de la funciÃ³n es Ãºnico, las
+pilas MAYORES Y MENORES deberÃ¡n ser ingresadas como parÃ¡metros por
+referencia, o una de las Pilas deberÃ¡ ser retornada y la otra modificada por medio
+de puntero. La Pila original debe quedar con todos sus elementos.
+*/
+
+Pila mayoresMenores(Pila original, Pila *mayores, int val)
+{
+    Pila menores;
+    inicpila(&menores);
+    Pila pilaux;
+    inicpila(&pilaux);
+    Pila pilaux2;
+    inicpila(&pilaux2);
+
+    while(!pilavacia(&original))
+    {
+        if(tope(&original) >= val)
+        {
+           apilar(mayores, desapilar(&original));
+        }else
+        {
+            apilar(&menores, desapilar(&original));
+        }
+    }
+    return menores;
 }
