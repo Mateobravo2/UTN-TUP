@@ -200,6 +200,22 @@ void menu()
                     system("pause");
                     system("cls");
                 }break;
+            case 12:
+                {
+
+                }break;
+            case 13:
+                {
+
+                }break;
+            case 14:
+                {
+
+                }break;
+            case 15:
+                {
+
+                }break;
         }
     }while(op!=0);
 }
@@ -452,6 +468,7 @@ Hacer una función que verifique si una pila DADA es capicúa. La función deber
 retornar 0 o 1, y en el Main se evaluará este resultado para informar al usuario si es
 o no capicúa.
 */
+
 int capicua(Pila dada)
 {
     int i=6, v=0;
@@ -483,3 +500,14 @@ int capicua(Pila dada)
         }
     return i;
 }
+
+/*
+Hacer una función que reciba por parámetro dos pilas A y B que simulan conjuntos
+(cada conjunto no tiene elementos repetidos sobre sí mismo). La función debe
+calcular en la pila C la operación de unión (es decir: la Pila C debe contener todos
+los elementos que estén en la Pila A o en la Pila B, pero los que se encuentren en
+ambas deben apilarse solo una vez). Deberá retornarse la Pila C o usar puntero
+para modificar la misma.
+*/
+
+
