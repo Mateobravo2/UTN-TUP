@@ -1,20 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "pila.h"
+#include <math.h>
 
 void menu();
-void cargarValores(int aux, Pila* pilita);
-void pasarValores(Pila *pilita, Pila *pila2);
-void conservarOrden(Pila *pilita, Pila *pila2);
-void invertirPila(Pila *pilita);
-int busqueda(Pila pilita, int aux);
-void eliminar(Pila *pilita, int aux);
-int eliminarMenor(Pila *pilita);
-void agregarElemento(int aux);
-float calcularPromedioPila(Pila pilita);
-int sumaPila(Pila pilita);
-int cantidadValores(Pila pilita);
-float division(int suma, int i);
+void cargarValores(Pila* pilita);
+void pasarTopeABase(Pila *pilita);
+void repartirAlternado(Pila mazo, Pila *jugador1, Pila *jugador2);
+
+void eliminarElementos(Pila *pilita);
+void eliminarTodos(Pila *modelo);
+Pila mayoresMenores(Pila original, Pila *mayores, int val);
+
+int transformarADecimal(Pila soloDigito);
+int sumaTopeYAnterior(Pila pilita);
+int capicua(Pila dada);
 
 int main()
 {
@@ -25,324 +25,461 @@ int main()
 void menu()
 {
     int op;
-    int aux=0, aux2=0;
     Pila pilita;
     inicpila(&pilita);
-    Pila pila2;
-    inicpila(&pila2);
+    apilar(&pilita, 2);
+    apilar(&pilita, 7);
+    apilar(&pilita, 6);
+    apilar(&pilita, 7);
+    apilar(&pilita, 15);
+    apilar(&pilita, 21);
+    apilar(&pilita, 32);
     do
     {
-        printf("__________________________________\n");
-        printf("|[1] FUNCION DE CARGA            |\n");
-        printf("|[2] PASAR DE UNA PILA A OTRA    |\n");
-        printf("|[3] PASAR CONSERVANDO VALORES   |\n");
-        printf("|[4] INVERTIR PILA               |\n");
-        printf("|[5] FUNCION DE BUSQUEDA         |\n");
-        printf("|[6] FUNCION DE ELIMINACION      |\n");
-        printf("|[7] ELIMINAR MENOR              |\n");
-        printf("|[8] PILA ORDENADA               |\n");
-        printf("|[9] PROMEDIO PILA               |\n");
-        printf("----------------------------------\n");
+        printf("_____________________________________\n");
+        printf("|[1] DE TOPE A BASE                 |\n");
+        printf("|[2] REPARTIR MAZO                  |\n");
+        printf("|[3]                                |\n");
+        printf("|[4]                                |\n");
+        printf("|[5] ELIMINAR ELEMENTO              |\n");
+        printf("|[6] ELIMINAR TODOS LOS ELEMENTOS   |\n");
+        printf("|[7] SEPARAR MAYORES Y MENORES      |\n");
+        printf("|[8]                                |\n");
+        printf("|[9] SOLO DIGITO A DECIMAL          |\n");
+        printf("|[10] SUMA TOPE Y ANTERIOR          |\n");
+        printf("|[11] CAPICUA                       |\n");
+        printf("|[12] CONJUNTOS                     |\n");
+        printf("|[13]                               |\n");
+        printf("|[14]                               |\n");
+        printf("|[15]                               |\n");
+        printf("-------------------------------------\n");
         scanf("%i", &op);
         system("cls");
         switch(op)
         {
+        default:
+            {
+                printf("~ ~ ~ INGRESE UNA OPCION VALIDA ~ ~ ~\n");
+            }break;
             case 0:
-            {
-                printf("~ ~ ~ FINALIZANDO PROGRAMA ~ ~ ~");
-            }break;
+                {
+                    printf("~ ~ ~ FINALIZANDO PROGRAMA ~ ~ ~\n");
+                }break;
             case 1:
-            {
-                printf("Cuantos valores desea ingresar en la pila?\n");
-                scanf("%i", &aux);
-                cargarValores(aux, &pilita);
-                system("cls");
-                mostrar(&pilita);
-            }break;
-
+                {
+                    mostrar(&pilita);
+                    pasarTopeABase(&pilita);
+                    mostrar(&pilita);
+                    system("pause");
+                    system("cls");
+                }break;
             case 2:
-            {
-                pasarValores(&pilita, &pila2);
-                mostrar(&pilita);
-                mostrar(&pila2);
-            }break;
-
+                {
+                    Pila pila1;
+                    inicpila(&pila1);
+                    Pila pila2;
+                    inicpila(&pila2);
+                    repartirAlternado(pilita, &pila1, &pila2);
+                    printf("MAZO\n");
+                    mostrar(&pilita);
+                    printf("JUGADOR 1\n");
+                    mostrar(&pila1);
+                    printf("JUGADOR 2\n");
+                    mostrar(&pila2);
+                    system("pause");
+                    system("cls");
+                }break;
             case 3:
-            {
-                conservarOrden(&pilita, &pila2);
-                mostrar(&pilita);
-                mostrar(&pila2);
-            }break;
+                {
 
+                }break;
             case 4:
-            {
-                invertirPila(&pilita);
-                mostrar(&pilita);
-            }break;
+                {
 
+                }break;
             case 5:
-            {
-                printf("Que elemento desea buscar?: \n");
-                scanf("%i", &aux);
-                aux2 = busqueda(pilita, aux);
-                if(aux2==1)
                 {
-                    printf("Se encontro el valor %i\n", aux);
                     mostrar(&pilita);
-                }else
-                {
-                    printf("No se encontro el valor %i\n", aux);
+                    if(!pilavacia(&pilita))
+                    {
+                    eliminarElementos(&pilita);
                     mostrar(&pilita);
-                }
-            }break;
+                    system("pause");
+                    system("cls");
+                    }else
+                    {
+                        printf("~ ~ ~ LA PILA ESTÁ VACIA ~ ~ ~");
+                    }
+                }break;
             case 6:
-            {
-                printf("Ingrese el elemento que desea eliminar: \n");
-                scanf("%i", &aux);
-                mostrar(&pilita);
-                eliminar(&pilita, aux);
-                mostrar(&pilita);
-            }break;
-            case 7:
-            {
-                mostrar(&pilita);
-                aux=eliminarMenor(&pilita);
-                if(aux==-1)
                 {
-                    printf("~ ~ ~ LA PILA ESTA VACIA ~ ~ ~");
-                }else
-                {
-                    printf("Se elimino %i", aux);
                     mostrar(&pilita);
-                }
-            }break;
+                    if(!pilavacia(&pilita))
+                    {
+                    eliminarTodos(&pilita);
+                    mostrar(&pilita);
+                    system("pause");
+                    system("cls");
+                    }else
+                    {
+                        printf("~ ~ ~ LA PILA ESTÁ VACIA ~ ~ ~");
+                    }
+                }break;
+            case 7:
+                {
+                    int val;
+                    Pila mayores;
+                    inicpila(&mayores);
+                    Pila menores;
+                    inicpila(&menores);
+                    printf("Que valor desea elegir como divisor?\n");
+                    scanf("%i", &val);
+                    menores=mayoresMenores(pilita, &mayores, val);
+                    printf("\nPila original: ");
+                    mostrar(&pilita);
+                    printf("Pila MAYORES: ");
+                    mostrar(&mayores);
+                    printf("Pila MENORES: ");
+                    mostrar(&menores);
+                    system("pause");
+                    system("cls");
+                }break;
             case 8:
                 {
-                    printf("Coloque el numero que desea agregar a la pila: \n");
-                    scanf("%i", &aux);
-                    agregarElemento(aux);
+
                 }break;
             case 9:
                 {
-                    printf("El promedio de la pila es de: %.2f\n", calcularPromedioPila(pilita));
+                    int sum=0;
+                    Pila soloDigito;
+                    inicpila(&soloDigito);
+                    cargarValores(&soloDigito);
+                    sum=transformarADecimal(soloDigito);
+                    printf("Pila original: \n");
+                    mostrar(&soloDigito);
+                    printf("\nPasado a decimal: \n%i\n", sum);
+                    system("pause");
+                    system("cls");
+                }break;
+            case 10:
+                {
+                    int suma=0;
+                    Pila pilon;
+                    inicpila(&pilon);
+                    cargarValores(&pilon);
+                    suma=sumaTopeYAnterior(pilon);
+                    system("cls");
+                    printf("PILA ORIGINAL: \n");
+                    mostrar(&pilon);
+                    printf("\nLa suma del tope y el anterior es: %i\n", suma);
+                    system("pause");
+                    system("cls");
+                }break;
+            case 11:
+                {
+                    int aux;
+                    Pila dada;
+                    inicpila(&dada);
+                    apilar(&dada, 1);
+                    apilar(&dada, 4);
+                    apilar(&dada, 2);
+                    apilar(&dada, 6);
+                    apilar(&dada, 2);
+                    apilar(&dada, 4);
+                    apilar(&dada, 1);
+                    aux=capicua(dada);
+                    printf("--PILA ORIGINAL--\n");
+                    mostrar(&dada);
+                        if(aux==1)
+                        {
+                            printf("La pila es capicua!!!\n");
+                        }else
+                        {
+                            printf("La pila NO es capicua :( \n");
+                        }
+                    system("pause");
+                    system("cls");
                 }break;
         }
     }while(op!=0);
 }
 
 /*
-Hacer una función que permita al usuario del sistema ingresar a una pila todos
-los datos que desee (a esto lo llamamos “FUNCION DE CARGA”).
+Hacer una función que pase el primer elemento (tope) de una pila a su última
+posición (base), dejando los restantes elementos en el mismo orden. Retornar la
+Pila o usar puntero para modificar la misma.
 */
-void cargarValores(int aux, Pila* pilita)
-{
-    while(aux>0)
-    {
-        leer(pilita);
-        aux--;
-    }
-}
-
-/*
-Hacer una función que pase todos los elementos de una pila a otra.
-*/
-void pasarValores(Pila *pilita, Pila *pila2)
-{
-    while(pilavacia(pilita)==0)
-    {
-        apilar(pila2, desapilar(pilita));
-    }
-}
-
-/*
-Hacer una función que pase todos los elementos de una pila a otra, pero
-conservando el orden.
-*/
-void conservarOrden(Pila *pilita, Pila *pila2)
+void pasarTopeABase(Pila *pilita)
 {
     Pila pilaux;
     inicpila(&pilaux);
-    pasarValores(pilita, &pilaux);
-    pasarValores(&pilaux, pilita);
+    Pila pilaux2;
+    inicpila(&pilaux2);
+    apilar(&pilaux, desapilar(pilita));
+    while(!pilavacia(pilita))
+    {
+        apilar(&pilaux2, desapilar(pilita));
+    }
+    apilar(pilita, desapilar(&pilaux));
+    while(!pilavacia(&pilaux2))
+    {
+        apilar(pilita, desapilar(&pilaux2));
+    }
 }
 
 /*
-Hacer una función que invierta una pila (que contenga los elementos cargados
-originalmente en ella, pero en orden inverso).
+Hacer una función que reparta los elementos de la pila MAZO en las pilas
+JUGADOR1 y JUGADOR2 en forma alternada. Como el retorno de la función es
+único, las Pilas correspondientes a los Jugadores deberán ser ingresadas como
+parámetros por referencia, o una de las Pilas deberá ser retornada y la otra
+modificada por medio de puntero.
 */
-void invertirPila(Pila *pilita)
+void repartirAlternado(Pila mazo, Pila *jugador1, Pila *jugador2)
 {
-    Pila pila2;
-    inicpila(&pila2);
-    conservarOrden(pilita, &pila2);
-    pasarValores(&pila2, pilita);
+    while(!pilavacia(&mazo))
+    {
+        apilar(jugador1, desapilar(&mazo));
+        apilar(jugador2, desapilar(&mazo));
+    }
 }
 
 /*
-Hacer una función que determine si un elemento buscado está o no dentro
-de una pila. Al encontrarlo, finalizar la búsqueda. (a esto lo llamamos
-“FUNCION DE BUSQUEDA”)
+Hacer una función que compare la cantidad de elementos de dos pilas A y B. La
+función deberá retornar -1 si la Pila A tiene más elementos, 0 si ambas pilas
+tienen la misma cantidad de elementos o 1 si la Pila B tiene más elementos. En el
+Main se evaluará este resultado para informar al usuario cuál Pila tiene más
+elementos. El ejercicio debe resolverse SIN CONTAR los elementos de las
+Pilas.
 */
-int busqueda(Pila pilita, int aux)
+void compararCantidad()
 {
+
+}
+
+/*
+Hacer una función que compare dos pilas A y B para ver si son completamente
+iguales (en cantidad de elementos, valores que contienen y posición de los
+mismos). La función deberá retornar 0 o 1, y en el Main se evaluará este
+resultado para informar al usuario si las pilas son exáctamente iguales o no. El
+ejercicio debe resolverse SIN CONTAR los elementos de las Pilas.
+*/
+void pilasIguales()
+{
+
+}
+
+/*
+Hacer una función que reciba una pila MODELO (vacía o no), y elimine de la pila
+DADA todos los elementos que sean iguales al TOPE de la pila MODELO.
+*/
+void eliminarElementos(Pila *modelo)
+{
+    Pila dada;
+    inicpila(&dada);
     Pila pilaux;
     inicpila(&pilaux);
-    int i=0;
-    while(pilavacia(&pilita) == 0 && i==0)
+    apilar(&dada, 5);
+    apilar(&dada, 1);
+    apilar(&dada, 12);
+    apilar(&dada, 34);
+    apilar(&dada, 2);
+    apilar(&dada, 7);
+    while(!pilavacia(modelo))
     {
-        if(tope(&pilita)==aux)
+        if(tope(modelo)==tope(&dada))
         {
-            i=1;
-        }
-        apilar(&pilaux, desapilar(&pilita));
-    }
-    return i;
-}
-
-/*
-Hacer una función que elimine de una pila TODOS los elementos que
-coincidan con un valor ingresado por parámetro a la función. Al eliminarlo/s,
-el resto de los elementos de la pila deben quedar en el mismo orden. (a esto
-lo llamamos “FUNCION DE ELIMINACION”).
-*/
-void eliminar(Pila *pilita, int aux)
-{
-    Pila pilaux;
-    inicpila(&pilaux);
-    while(pilavacia(pilita) == 0)
-    {
-        if(tope(pilita)==aux)
+            desapilar(modelo);
+        }else
         {
-            desapilar(pilita);
+            apilar(&pilaux, desapilar(modelo));
         }
-        else
-        {
-         apilar(&pilaux, desapilar(pilita));
-        }
-    }
-    while(pilavacia(&pilaux) == 0)
-    {
-        apilar(pilita, desapilar(&pilaux));
-    }
-}
-
-/*
-Hacer una función que encuentre el menor elemento de una pila y lo retorne.
-La misma debe eliminar ese dato de la pila.
-*/
-
-int eliminarMenor(Pila *pilita)
-{
-    Pila pilaux;
-    inicpila(&pilaux);
-    Pila pilamenor;
-    inicpila(&pilamenor);
-    if(!pilavacia(pilita))
-    {
-        apilar(&pilamenor, desapilar(pilita));
-    }else
-    {
-        apilar(&pilamenor, -1);
-    }
-        while(!pilavacia(pilita))
-        {
-            if(tope(pilita)<tope(&pilamenor))
-            {
-                apilar(&pilaux, desapilar(&pilamenor));
-                apilar(&pilamenor, desapilar(pilita));
-            }
-            else
-            {
-                apilar(&pilaux, desapilar(pilita));
-            }
-        }
-        while(!pilavacia(&pilaux))
-        {
-            apilar(pilita, desapilar(&pilaux));
-        }
-    return tope(&pilamenor);
-}
-
-/*
-Hacer una función que inserte en una pila ordenada un nuevo elemento,
-conservando el orden de ésta
-*/
-void agregarElemento(int aux)
-{
-    int flag=0;
-    Pila pilaux;
-    inicpila(&pilaux);
-    Pila pilaOrdenada;
-    inicpila(&pilaOrdenada);
-    apilar(&pilaOrdenada, 1);
-    apilar(&pilaOrdenada, 5);
-    apilar(&pilaOrdenada, 10);
-    apilar(&pilaOrdenada, 15);
-    apilar(&pilaOrdenada, 20);
-    mostrar(&pilaOrdenada);
-    while(flag==0 && !pilavacia(&pilaOrdenada))
-    {
-        if(tope(&pilaOrdenada) <= aux)
-        {
-            flag=1;
-            apilar(&pilaux, aux);
-        }else{
-                apilar(&pilaux, desapilar(&pilaOrdenada));
-        }
-    }
-    if(pilavacia(&pilaOrdenada))
-    {
-        apilar(&pilaux, aux);
     }
     while(!pilavacia(&pilaux))
     {
-        apilar(&pilaOrdenada, desapilar(&pilaux));
+        apilar(modelo, desapilar(&pilaux));
     }
-    mostrar(&pilaOrdenada);
+    printf("Elemento eliminado: %i\n", tope(&dada));
 }
 
 /*
-Hacer una función que calcule el promedio de los elementos de una pila, para
-ello hacer también una función que calcule la suma, otra para la cuenta y otra
-que divida. En total son cuatro funciones, y la función que calcula el promedio
-invoca a las otras 3.
+Hacer una función que reciba una pila MODELO (vacía o no), y elimine de la pila
+DADA todos los elementos que existan en la pila MODELO.
 */
-float calcularPromedioPila(Pila pilita)
+void eliminarTodos(Pila *modelo)
 {
-    int suma=0, i=0;
-    suma=sumaPila(pilita);
-    i=cantidadValores(pilita);
-    return division(suma, i);
-}
-
-int sumaPila(Pila pilita)
-{
+    Pila dada;
+    inicpila(&dada);
+    apilar(&dada, 7);
+    apilar(&dada, 32);
+    apilar(&dada, 2);
     Pila pilaux;
     inicpila(&pilaux);
-    int suma=0;
-    while(!pilavacia(&pilita))
+    Pila pilaux2;
+    inicpila(&pilaux2);
+    while(!pilavacia(modelo))
     {
-        apilar(&pilaux, desapilar(&pilita));
-        suma = suma + tope(&pilaux);
+        int flag=0;
+
+        while(!pilavacia(&dada))
+        {
+                if(tope(modelo)==tope(&dada))
+                {
+                    desapilar(modelo);
+                    flag=1;
+                }
+                    apilar(&pilaux2, desapilar(&dada));
+        }
+
+        while(!pilavacia(&pilaux2))
+        {
+        apilar(&dada, desapilar(&pilaux2));
+        }
+
+        if(flag==0)
+        {
+        apilar(&pilaux, desapilar(modelo));
+        }
+    }
+
+    while(!pilavacia(&pilaux))
+    {
+        apilar(modelo, desapilar(&pilaux));
+    }
+}
+
+/*
+Hacer una función que reciba por parámetro una Pila y un valor elegido por el
+usuario del sistema. La función debe pasar a la pila MAYORES los elementos de
+la pila que sean mayores o iguales a dicho valor elegido, y a la pila MENORES
+los elementos que sean menores. Como el retorno de la función es único, las
+pilas MAYORES Y MENORES deberán ser ingresadas como parámetros por
+referencia, o una de las Pilas deberá ser retornada y la otra modificada por medio
+de puntero. La Pila original debe quedar con todos sus elementos.
+*/
+
+Pila mayoresMenores(Pila original, Pila *mayores, int val)
+{
+    Pila menores;
+    inicpila(&menores);
+    Pila pilaux;
+    inicpila(&pilaux);
+    Pila pilaux2;
+    inicpila(&pilaux2);
+
+    while(!pilavacia(&original))
+    {
+        if(tope(&original) >= val)
+        {
+           apilar(mayores, desapilar(&original));
+        }else
+        {
+            apilar(&menores, desapilar(&original));
+        }
+    }
+    return menores;
+}
+
+
+
+/*
+Hacer una función que reciba una pila con números de un solo dígito (ello es
+responsabilidad de quien usa el programa) y que transforme esos dígitos en un
+número decimal.
+*/
+
+void cargarValores(Pila* pilita)
+{
+    int aux=1;
+    printf("(Ingrese -1 para finalizar)\n\n");
+    while(aux>=0)
+    {
+        leer(pilita);
+        aux=tope(pilita);
+        if(tope(pilita)<0)
+        {
+            desapilar(pilita);
+        }
+    }
+}
+
+int transformarADecimal(Pila soloDigito)
+{
+    int suma=0, x=0;
+    int i=-1;
+    Pila pilaux;
+    inicpila(&pilaux);
+
+    while(!pilavacia(&soloDigito))
+    {
+        i++;
+        apilar(&pilaux, desapilar(&soloDigito));
+    }
+
+    while(!pilavacia(&pilaux))
+    {
+        apilar(&soloDigito, desapilar(&pilaux));
+    }
+
+    while(!pilavacia(&soloDigito))
+    {
+        x=pow(10, i);
+        suma=suma+(tope(&soloDigito)*x);
+        i--;
+        apilar(&pilaux, desapilar(&soloDigito));
     }
     return suma;
 }
 
-int cantidadValores(Pila pilita)
+/*
+Hacer una función que sume los dos primeros elementos de una pila (tope y
+anterior), y retorne la suma, sin alterar el contenido de la pila.
+*/
+
+int sumaTopeYAnterior(Pila pilita)
 {
+    int aux=0, suma=0, aux2=0;
     Pila pilaux;
     inicpila(&pilaux);
-    int i=0;
-    while(!pilavacia(&pilita))
-    {
         apilar(&pilaux, desapilar(&pilita));
-        i++;
-    }
-    return i;
+        aux=tope(&pilaux);
+        aux2=tope(&pilita);
+        suma=aux+aux2;
+    return suma;
 }
 
-float division(int suma, int i)
+/*
+Hacer una función que verifique si una pila DADA es capicúa. La función deberá
+retornar 0 o 1, y en el Main se evaluará este resultado para informar al usuario si es
+o no capicúa.
+*/
+int capicua(Pila dada)
 {
-    return suma/i;
-
+    int i=6, v=0;
+    Pila pilaux;
+    inicpila(&pilaux);
+    Pila pilaux2;
+    inicpila(&pilaux2);
+    while(!pilavacia(&dada))
+    {
+        v=tope(&dada);
+        apilar(&pilaux2, v);
+        apilar(&pilaux, desapilar(&dada));
+    }
+    while(!pilavacia(&pilaux))
+    {
+        apilar(&dada, desapilar(&pilaux));
+    }
+        while(i!=0 && !pilavacia(&dada))
+        {
+            if(tope(&pilaux2) == tope(&dada))
+            {
+                i=1;
+            }else
+            {
+                i=0;
+            }
+                apilar(&pilaux, desapilar(&pilaux2));
+                apilar(&pilaux, desapilar(&dada));
+        }
+    return i;
 }
