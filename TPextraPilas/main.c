@@ -15,6 +15,9 @@ Pila mayoresMenores(Pila original, Pila *mayores, int val);
 int transformarADecimal(Pila soloDigito);
 int sumaTopeYAnterior(Pila pilita);
 int capicua(Pila dada);
+Pila operacionUnion(Pila pilitaa, Pila pilitab);
+int elementoRepetido(int num, Pila pila2);
+
 
 int main()
 {
@@ -202,7 +205,32 @@ void menu()
                 }break;
             case 12:
                 {
-
+                    Pila pilitaa;
+                    inicpila(&pilitaa);
+                    apilar(&pilitaa, 1);
+                    apilar(&pilitaa, 2);
+                    apilar(&pilitaa, 6);
+                    apilar(&pilitaa, 9);
+                    apilar(&pilitaa, 14);
+                    Pila pilitab;
+                    inicpila(&pilitab);
+                    apilar(&pilitab, 8);
+                    apilar(&pilitab, 22);
+                    apilar(&pilitab, 6);
+                    apilar(&pilitab, 7);
+                    apilar(&pilitab, 1);
+                    apilar(&pilitab, 12);
+                    Pila pilitac;
+                    inicpila(&pilitac);
+                    pilitac=operacionUnion(pilitaa, pilitab);
+                    printf("PILA A:");
+                    mostrar(&pilitaa);
+                    printf("\nPILA B:");
+                    mostrar(&pilitab);
+                    printf("\nPILAS UNIDAS:");
+                    mostrar(&pilitac);
+                    system("pause");
+                    system("cls");
                 }break;
             case 13:
                 {
@@ -510,4 +538,134 @@ ambas deben apilarse solo una vez). Deberá retornarse la Pila C o usar puntero
 para modificar la misma.
 */
 
+Pila operacionUnion(Pila pilitaa, Pila pilitab)
+{
+    Pila pilaux;
+    inicpila(&pilaux);
+    Pila pilitac;
+    inicpila(&pilitac);
+    int val=0, i=0;
+    while(i==0)
+    {
+        if(!pilavacia(&pilitaa) && !pilavacia(&pilitab))
+        {
+            if(!pilavacia(&pilitac))
+            {
 
+                val = elementoRepetido(tope(&pilitaa), pilitac);
+                if(val == 1)
+                {
+                    apilar(&pilaux, desapilar(&pilitaa));
+                }else
+                {
+                    apilar(&pilitac, desapilar(&pilitaa));
+                }
+                val = elementoRepetido(tope(&pilitab), pilitac);
+                if(val == 1)
+                {
+                    apilar(&pilaux, desapilar(&pilitab));
+                }else
+                {
+                    apilar(&pilitac, desapilar(&pilitab));
+                }
+            }
+            else
+            {
+                apilar(&pilitac, desapilar(&pilitaa));
+                val = elementoRepetido(tope(&pilitab), pilitac);
+                if(val == 1)
+                {
+                    apilar(&pilaux, desapilar(&pilitab));
+                }else
+                {
+                    apilar(&pilitac, desapilar(&pilitab));
+                }
+            }
+        }
+
+        else if(pilavacia(&pilitaa) && !pilavacia(&pilitab))
+        {
+            if(!pilavacia(&pilitac))
+            {
+                val = elementoRepetido(tope(&pilitab), pilitac);
+                if(val == 1)
+                {
+                    apilar(&pilaux, desapilar(&pilitab));
+                }else
+                {
+                    apilar(&pilitac, desapilar(&pilitab));
+                }
+            }
+            else
+            {
+                apilar(&pilitac, desapilar(&pilitab));
+                val = elementoRepetido(tope(&pilitab), pilitac);
+                if(val == 1)
+                {
+                    apilar(&pilaux, desapilar(&pilitab));
+                }else
+                {
+                    apilar(&pilitac, desapilar(&pilitab));
+                }
+            }
+        }
+
+        else if(!pilavacia(&pilitaa) && pilavacia(&pilitab))
+        {
+            if(!pilavacia(&pilitac))
+            {
+                val = elementoRepetido(tope(&pilitaa), pilitac);
+                if(val == 1)
+                {
+                    apilar(&pilaux, desapilar(&pilitaa));
+                }else
+                {
+                    apilar(&pilitac, desapilar(&pilitaa));
+                }
+            }
+            else
+            {
+                apilar(&pilitac, desapilar(&pilitaa));
+                val = elementoRepetido(tope(&pilitaa), pilitac);
+                if(val == 1)
+                {
+                    apilar(&pilaux, desapilar(&pilitaa));
+                }else
+                {
+                    apilar(&pilitac, desapilar(&pilitaa));
+                }
+            }
+        }
+
+        else
+        {
+            val=1;
+            i=1;
+        }
+    }
+    return pilitac;
+}
+
+int elementoRepetido(int num, Pila pila2)
+{
+    Pila pilaux;
+    inicpila(&pilaux);
+    int aux=0, aux2=0;
+    while(!pilavacia(&pila2) && aux2 != 1)
+    {
+        aux=tope(&pila2);
+        if(num == aux)
+        {
+            aux2=1;
+        }
+        apilar(&pilaux, desapilar(&pila2));
+    }
+    return aux2;
+}
+
+/*
+Hacer una función que reciba dos pilas ordenadas en forma creciente y pase los
+elementos de las mismas a otra pila también ordenada en forma creciente
+(ORDENADAFINAL). Deberá retornarse la Pila ORDENADAFINAL o usar puntero
+para modificar la misma.
+*/
