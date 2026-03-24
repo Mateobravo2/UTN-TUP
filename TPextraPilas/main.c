@@ -35,6 +35,9 @@ void verificarElementoRepetido(int val, Pila *pilaux, Pila *pilitac, Pila *pilit
 Pila juntarOrdenadas(Pila pilaa, Pila pilab);
 void agregarElemento(int aux, Pila *pilaOrdenada);
 //PUNTO 14
+Pila ordenarPila(Pila pilita);
+int eliminarMenor(Pila pilita);
+//PUNTO 15
 
 
 int main()
@@ -58,20 +61,20 @@ void menu()
     do
     {
         printf("_____________________________________\n");
-        printf("|[1] DE TOPE A BASE                 |\n");
-        printf("|[2] REPARTIR MAZO                  |\n");
+        printf("|[1]  DE TOPE A BASE                |\n");
+        printf("|[2]  REPARTIR MAZO                 |\n");
         printf("|[3]                                |\n");
         printf("|[4]                                |\n");
-        printf("|[5] ELIMINAR ELEMENTO              |\n");
-        printf("|[6] ELIMINAR TODOS LOS ELEMENTOS   |\n");
-        printf("|[7] SEPARAR MAYORES Y MENORES      |\n");
+        printf("|[5]  ELIMINAR ELEMENTO             |\n");
+        printf("|[6]  ELIMINAR TODOS LOS ELEMENTOS  |\n");
+        printf("|[7]  SEPARAR MAYORES Y MENORES     |\n");
         printf("|[8]                                |\n");
-        printf("|[9] SOLO DIGITO A DECIMAL          |\n");
+        printf("|[9]  SOLO DIGITO A DECIMAL         |\n");
         printf("|[10] SUMA TOPE Y ANTERIOR          |\n");
         printf("|[11] CAPICUA                       |\n");
         printf("|[12] CONJUNTOS                     |\n");
-        printf("|[13]                               |\n");
-        printf("|[14]                               |\n");
+        printf("|[13] JUNTAR 2 PILAS ORDENADAS      |\n");
+        printf("|[14] ORDENAR PILA                  |\n");
         printf("|[15]                               |\n");
         printf("-------------------------------------\n");
         scanf("%i", &op);
@@ -280,7 +283,15 @@ void menu()
                 }break;
             case 14:
                 {
-
+                    Pila pilaOrdenada;
+                    inicpila(&pilaOrdenada);
+                    printf("PILA:");
+                    mostrar(&pilita);
+                    pilaOrdenada=ordenarPila(pilita);
+                    printf("\nPILA ORDENADA:");
+                    mostrar(&pilaOrdenada);
+                    system("pause");
+                    system("cls");
                 }break;
             case 15:
                 {
@@ -336,6 +347,7 @@ tienen la misma cantidad de elementos o 1 si la Pila B tiene más elementos. En 
 Main se evaluará este resultado para informar al usuario cuál Pila tiene más
 elementos. El ejercicio debe resolverse SIN CONTAR los elementos de las
 Pilas.
+PREGUNTAR COMO SE HACE SIN CONTAR LOS ELEMENTOS
 */
 void compararCantidad()
 {
@@ -348,6 +360,7 @@ iguales (en cantidad de elementos, valores que contienen y posición de los
 mismos). La función deberá retornar 0 o 1, y en el Main se evaluará este
 resultado para informar al usuario si las pilas son exáctamente iguales o no. El
 ejercicio debe resolverse SIN CONTAR los elementos de las Pilas.
+PREGUNTAR COMO SE HACE SIN CONTAR LOS ELEMENTOS
 */
 void pilasIguales()
 {
@@ -465,8 +478,17 @@ Pila mayoresMenores(Pila original, Pila *mayores, int val)
     return menores;
 }
 
+/*
+Hacer una función que reciba una Pila y determine si la cantidad de elementos de
+la misma es par o impar. La función deberá retornar 0 o 1, y en el Main se
+evaluará este resultado para informar al usuario si la pila es par o impar. El
+ejercicio debe resolverse SIN CONTAR los elementos de las Pilas.
+PREGUNTAR COMO SE HACE SIN CONTAR LOS ELEMENTOS
+*/
+void parOImpar()
+{
 
-
+}
 /*
 Hacer una función que reciba una pila con números de un solo dígito (ello es
 responsabilidad de quien usa el programa) y que transforme esos dígitos en un
@@ -737,4 +759,68 @@ void agregarElemento(int aux, Pila *pilaOrdenada)
         apilar(pilaOrdenada, desapilar(&pilaux));
     }
 }
+
+/*
+Utilizando la función del punto 7 de buscar, eliminar y retornar el menor de una Pila
+de la guía número 2 (Funciones con Pilas), hacer una función que reciba una Pila
+por parámetro, genere una nueva Pila ordenada, utilizando cada dato extraído de la
+Pila recibida por parámetro y la retorne.
+*/
+
+Pila ordenarPila(Pila pilita)
+{
+    int aux=0;
+    Pila pilaOrdenada;
+    inicpila(&pilaOrdenada);
+    Pila pilaux;
+    inicpila(&pilaux);
+    while(!pilavacia(&pilita))
+    {
+        aux=eliminarMenor(pilita);
+        apilar(&pilaOrdenada, aux);
+        apilar(&pilaux, desapilar(&pilita));
+    }
+    return pilaOrdenada;
+}
+
+int eliminarMenor(Pila pilita)
+{
+    Pila pilaux;
+    inicpila(&pilaux);
+    Pila pilamenor;
+    inicpila(&pilamenor);
+    if(!pilavacia(&pilita))
+    {
+        apilar(&pilamenor, desapilar(&pilita));
+    }else
+    {
+        apilar(&pilamenor, -1);
+    }
+        while(!pilavacia(&pilita))
+        {
+            if(tope(&pilita)<tope(&pilamenor))
+            {
+                apilar(&pilaux, desapilar(&pilamenor));
+                apilar(&pilamenor, desapilar(&pilita));
+            }
+            else
+            {
+                apilar(&pilaux, desapilar(&pilita));
+            }
+        }
+        while(!pilavacia(&pilaux))
+        {
+            apilar(&pilita, desapilar(&pilaux));
+        }
+    return tope(&pilamenor);
+}
+
+/*
+Utilizando la función del punto 8 de insertar un dato en orden en una pila de la guía
+número 2 (Funciones con Pilas), hacer una función que reciba una Pila por
+parámetro, genere una nueva Pila ordenada, insertando cada dato desapilado de la
+Pila recibida por parámetro y la retorne.
+PREGUNTAR QUE SE DEBE RETORNAR
+*/
+
 
