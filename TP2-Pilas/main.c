@@ -152,7 +152,7 @@ Hacer una función que pase todos los elementos de una pila a otra.
 */
 void pasarValores(Pila *pilita, Pila *pila2)
 {
-    while(pilavacia(pilita)==0)
+    while(!pilavacia(pilita))
     {
         apilar(pila2, desapilar(pilita));
     }
