@@ -79,6 +79,7 @@ void menu()
 
             case 4:
             {
+                mostrar(&pilita);
                 invertirPila(&pilita);
                 mostrar(&pilita);
             }break;
