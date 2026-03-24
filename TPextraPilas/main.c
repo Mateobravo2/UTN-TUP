@@ -1,14 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "pila.h"
+#include <math.h>
 
 void menu();
+void cargarValores(Pila* pilita);
 void pasarTopeABase(Pila *pilita);
 void repartirAlternado(Pila mazo, Pila *jugador1, Pila *jugador2);
 
 void eliminarElementos(Pila *pilita);
 void eliminarTodos(Pila *modelo);
 Pila mayoresMenores(Pila original, Pila *mayores, int val);
+
+int transformarADecimal(Pila soloDigito);
+int sumaTopeYAnterior(Pila pilita);
+int capicua(Pila dada);
 
 int main()
 {
@@ -30,17 +36,23 @@ void menu()
     apilar(&pilita, 32);
     do
     {
-        printf("__________________________________\n");
+        printf("_____________________________________\n");
         printf("|[1] DE TOPE A BASE                 |\n");
         printf("|[2] REPARTIR MAZO                  |\n");
-        printf("|[3] COMPRAR CANTIDAD DE ELEMENTOS  |\n");
+        printf("|[3]                                |\n");
         printf("|[4]                                |\n");
         printf("|[5] ELIMINAR ELEMENTO              |\n");
         printf("|[6] ELIMINAR TODOS LOS ELEMENTOS   |\n");
-        printf("|[7]                                |\n");
+        printf("|[7] SEPARAR MAYORES Y MENORES      |\n");
         printf("|[8]                                |\n");
-        printf("|[9]                                |\n");
-        printf("----------------------------------\n");
+        printf("|[9] SOLO DIGITO A DECIMAL          |\n");
+        printf("|[10] SUMA TOPE Y ANTERIOR          |\n");
+        printf("|[11] CAPICUA                       |\n");
+        printf("|[12] CONJUNTOS                     |\n");
+        printf("|[13]                               |\n");
+        printf("|[14]                               |\n");
+        printf("|[15]                               |\n");
+        printf("-------------------------------------\n");
         scanf("%i", &op);
         system("cls");
         switch(op)
@@ -133,6 +145,74 @@ void menu()
                     system("cls");
                 }break;
             case 8:
+                {
+
+                }break;
+            case 9:
+                {
+                    int sum=0;
+                    Pila soloDigito;
+                    inicpila(&soloDigito);
+                    cargarValores(&soloDigito);
+                    sum=transformarADecimal(soloDigito);
+                    printf("Pila original: \n");
+                    mostrar(&soloDigito);
+                    printf("\nPasado a decimal: \n%i\n", sum);
+                    system("pause");
+                    system("cls");
+                }break;
+            case 10:
+                {
+                    int suma=0;
+                    Pila pilon;
+                    inicpila(&pilon);
+                    cargarValores(&pilon);
+                    suma=sumaTopeYAnterior(pilon);
+                    system("cls");
+                    printf("PILA ORIGINAL: \n");
+                    mostrar(&pilon);
+                    printf("\nLa suma del tope y el anterior es: %i\n", suma);
+                    system("pause");
+                    system("cls");
+                }break;
+            case 11:
+                {
+                    int aux;
+                    Pila dada;
+                    inicpila(&dada);
+                    apilar(&dada, 1);
+                    apilar(&dada, 4);
+                    apilar(&dada, 2);
+                    apilar(&dada, 6);
+                    apilar(&dada, 2);
+                    apilar(&dada, 4);
+                    apilar(&dada, 1);
+                    aux=capicua(dada);
+                    printf("--PILA ORIGINAL--\n");
+                    mostrar(&dada);
+                        if(aux==1)
+                        {
+                            printf("La pila es capicua!!!\n");
+                        }else
+                        {
+                            printf("La pila NO es capicua :( \n");
+                        }
+                    system("pause");
+                    system("cls");
+                }break;
+            case 12:
+                {
+
+                }break;
+            case 13:
+                {
+
+                }break;
+            case 14:
+                {
+
+                }break;
+            case 15:
                 {
 
                 }break;
@@ -314,3 +394,120 @@ Pila mayoresMenores(Pila original, Pila *mayores, int val)
     }
     return menores;
 }
+
+
+
+/*
+Hacer una función que reciba una pila con números de un solo dígito (ello es
+responsabilidad de quien usa el programa) y que transforme esos dígitos en un
+número decimal.
+*/
+
+void cargarValores(Pila* pilita)
+{
+    int aux=1;
+    printf("(Ingrese -1 para finalizar)\n\n");
+    while(aux>=0)
+    {
+        leer(pilita);
+        aux=tope(pilita);
+        if(tope(pilita)<0)
+        {
+            desapilar(pilita);
+        }
+    }
+}
+
+int transformarADecimal(Pila soloDigito)
+{
+    int suma=0, x=0;
+    int i=-1;
+    Pila pilaux;
+    inicpila(&pilaux);
+
+    while(!pilavacia(&soloDigito))
+    {
+        i++;
+        apilar(&pilaux, desapilar(&soloDigito));
+    }
+
+    while(!pilavacia(&pilaux))
+    {
+        apilar(&soloDigito, desapilar(&pilaux));
+    }
+
+    while(!pilavacia(&soloDigito))
+    {
+        x=pow(10, i);
+        suma=suma+(tope(&soloDigito)*x);
+        i--;
+        apilar(&pilaux, desapilar(&soloDigito));
+    }
+    return suma;
+}
+
+/*
+Hacer una función que sume los dos primeros elementos de una pila (tope y
+anterior), y retorne la suma, sin alterar el contenido de la pila.
+*/
+
+int sumaTopeYAnterior(Pila pilita)
+{
+    int aux=0, suma=0, aux2=0;
+    Pila pilaux;
+    inicpila(&pilaux);
+        apilar(&pilaux, desapilar(&pilita));
+        aux=tope(&pilaux);
+        aux2=tope(&pilita);
+        suma=aux+aux2;
+    return suma;
+}
+
+/*
+Hacer una función que verifique si una pila DADA es capicúa. La función deberá
+retornar 0 o 1, y en el Main se evaluará este resultado para informar al usuario si es
+o no capicúa.
+*/
+
+int capicua(Pila dada)
+{
+    int i=6, v=0;
+    Pila pilaux;
+    inicpila(&pilaux);
+    Pila pilaux2;
+    inicpila(&pilaux2);
+    while(!pilavacia(&dada))
+    {
+        v=tope(&dada);
+        apilar(&pilaux2, v);
+        apilar(&pilaux, desapilar(&dada));
+    }
+    while(!pilavacia(&pilaux))
+    {
+        apilar(&dada, desapilar(&pilaux));
+    }
+        while(i!=0 && !pilavacia(&dada))
+        {
+            if(tope(&pilaux2) == tope(&dada))
+            {
+                i=1;
+            }else
+            {
+                i=0;
+            }
+                apilar(&pilaux, desapilar(&pilaux2));
+                apilar(&pilaux, desapilar(&dada));
+        }
+    return i;
+}
+
+/*
+Hacer una función que reciba por parámetro dos pilas A y B que simulan conjuntos
+(cada conjunto no tiene elementos repetidos sobre sí mismo). La función debe
+calcular en la pila C la operación de unión (es decir: la Pila C debe contener todos
+los elementos que estén en la Pila A o en la Pila B, pero los que se encuentren en
+ambas deben apilarse solo una vez). Deberá retornarse la Pila C o usar puntero
+para modificar la misma.
+*/
+
+
