@@ -5,18 +5,36 @@
 
 void menu();
 void cargarValores(Pila* pilita);
+//PUNTO 1
 void pasarTopeABase(Pila *pilita);
+//PUNTO 2
 void repartirAlternado(Pila mazo, Pila *jugador1, Pila *jugador2);
+//PUNTO 3
 
+//PUNTO 4
+
+//PUNTO 5
 void eliminarElementos(Pila *pilita);
+//PUNTO 6
 void eliminarTodos(Pila *modelo);
+//PUNTO 7
 Pila mayoresMenores(Pila original, Pila *mayores, int val);
+//PUNTO 8
 
+//PUNTO 9
 int transformarADecimal(Pila soloDigito);
+//PUNTO 10
 int sumaTopeYAnterior(Pila pilita);
+//PUNTO 11
 int capicua(Pila dada);
+//punto 12
 Pila operacionUnion(Pila pilitaa, Pila pilitab);
 int elementoRepetido(int num, Pila pila2);
+void verificarElementoRepetido(int val, Pila *pilaux, Pila *pilitac, Pila *pilita);
+//PUNTO 13
+Pila juntarOrdenadas(Pila pilaa, Pila pilab);
+void agregarElemento(int aux, Pila *pilaOrdenada);
+//PUNTO 14
 
 
 int main()
@@ -234,7 +252,31 @@ void menu()
                 }break;
             case 13:
                 {
-
+                    Pila pilaOrd1;
+                    inicpila(&pilaOrd1);
+                    apilar(&pilaOrd1, 0);
+                    apilar(&pilaOrd1, 1);
+                    apilar(&pilaOrd1, 8);
+                    apilar(&pilaOrd1, 15);
+                    apilar(&pilaOrd1, 26);
+                    apilar(&pilaOrd1, 35);
+                    Pila pilaOrd2;
+                    inicpila(&pilaOrd2);
+                    apilar(&pilaOrd2, 1);
+                    apilar(&pilaOrd2, 7);
+                    apilar(&pilaOrd2, 9);
+                    apilar(&pilaOrd2, 16);
+                    apilar(&pilaOrd2, 25);
+                    apilar(&pilaOrd2, 35);
+                    apilar(&pilaOrd1, 94);
+                    Pila ordenadaFinal;
+                    inicpila(&ordenadaFinal);
+                    mostrar(&pilaOrd1);
+                    mostrar(&pilaOrd2);
+                    ordenadaFinal= juntarOrdenadas(pilaOrd1, pilaOrd2);
+                    mostrar(&ordenadaFinal);
+                    system("pause");
+                    system("cls");
                 }break;
             case 14:
                 {
@@ -544,106 +586,70 @@ Pila operacionUnion(Pila pilitaa, Pila pilitab)
     inicpila(&pilaux);
     Pila pilitac;
     inicpila(&pilitac);
-    int val=0, i=0;
-    while(i==0)
+    int val=0, flag=0;
+    while(flag==0)
     {
         if(!pilavacia(&pilitaa) && !pilavacia(&pilitab))
         {
             if(!pilavacia(&pilitac))
             {
-
                 val = elementoRepetido(tope(&pilitaa), pilitac);
-                if(val == 1)
-                {
-                    apilar(&pilaux, desapilar(&pilitaa));
-                }else
-                {
-                    apilar(&pilitac, desapilar(&pilitaa));
-                }
+                verificarElementoRepetido(val, &pilaux, &pilitac, &pilitaa);
                 val = elementoRepetido(tope(&pilitab), pilitac);
-                if(val == 1)
-                {
-                    apilar(&pilaux, desapilar(&pilitab));
-                }else
-                {
-                    apilar(&pilitac, desapilar(&pilitab));
-                }
+                verificarElementoRepetido(val, &pilaux, &pilitac, &pilitab);
             }
             else
             {
                 apilar(&pilitac, desapilar(&pilitaa));
                 val = elementoRepetido(tope(&pilitab), pilitac);
-                if(val == 1)
-                {
-                    apilar(&pilaux, desapilar(&pilitab));
-                }else
-                {
-                    apilar(&pilitac, desapilar(&pilitab));
-                }
+                verificarElementoRepetido(val, &pilaux, &pilitac, &pilitab);
             }
         }
-
         else if(pilavacia(&pilitaa) && !pilavacia(&pilitab))
         {
             if(!pilavacia(&pilitac))
             {
                 val = elementoRepetido(tope(&pilitab), pilitac);
-                if(val == 1)
-                {
-                    apilar(&pilaux, desapilar(&pilitab));
-                }else
-                {
-                    apilar(&pilitac, desapilar(&pilitab));
-                }
+                verificarElementoRepetido(val, &pilaux, &pilitac, &pilitab);
             }
             else
             {
                 apilar(&pilitac, desapilar(&pilitab));
                 val = elementoRepetido(tope(&pilitab), pilitac);
-                if(val == 1)
-                {
-                    apilar(&pilaux, desapilar(&pilitab));
-                }else
-                {
-                    apilar(&pilitac, desapilar(&pilitab));
-                }
+                verificarElementoRepetido(val, &pilaux, &pilitac, &pilitab);
             }
         }
-
         else if(!pilavacia(&pilitaa) && pilavacia(&pilitab))
         {
             if(!pilavacia(&pilitac))
             {
                 val = elementoRepetido(tope(&pilitaa), pilitac);
-                if(val == 1)
-                {
-                    apilar(&pilaux, desapilar(&pilitaa));
-                }else
-                {
-                    apilar(&pilitac, desapilar(&pilitaa));
-                }
+                verificarElementoRepetido(val, &pilaux, &pilitac, &pilitaa);
             }
             else
             {
                 apilar(&pilitac, desapilar(&pilitaa));
                 val = elementoRepetido(tope(&pilitaa), pilitac);
-                if(val == 1)
-                {
-                    apilar(&pilaux, desapilar(&pilitaa));
-                }else
-                {
-                    apilar(&pilitac, desapilar(&pilitaa));
-                }
+                verificarElementoRepetido(val, &pilaux, &pilitac, &pilitaa);
             }
         }
-
         else
         {
-            val=1;
-            i=1;
+            flag=1;
         }
     }
     return pilitac;
+}
+
+void verificarElementoRepetido(int val, Pila *pilaux, Pila *pilitac, Pila *pilita)
+{
+    if(val == 1)
+    {
+        apilar(pilaux, desapilar(pilita));
+    }else
+    {
+        apilar(pilitac, desapilar(pilita));
+    }
 }
 
 int elementoRepetido(int num, Pila pila2)
@@ -669,3 +675,66 @@ elementos de las mismas a otra pila también ordenada en forma creciente
 (ORDENADAFINAL). Deberá retornarse la Pila ORDENADAFINAL o usar puntero
 para modificar la misma.
 */
+Pila juntarOrdenadas(Pila pilaa, Pila pilab)
+{
+    int aux=0, aux2=0, flag=0;
+    Pila pilaux;
+    inicpila(&pilaux);
+    Pila ordenadaFinal;
+    inicpila(&ordenadaFinal);
+    while(flag!=1)
+    {
+        if(!pilavacia(&pilaa) && !pilavacia(&pilab))
+        {
+            aux=tope(&pilaa);
+            agregarElemento(aux, &ordenadaFinal);
+            aux2=tope(&pilab);
+            agregarElemento(aux2, &ordenadaFinal);
+            apilar(&pilaux, desapilar(&pilaa));
+            apilar(&pilaux, desapilar(&pilab));
+        }
+        else if(pilavacia(&pilaa) && !pilavacia(&pilab))
+        {
+            aux2=tope(&pilab);
+            agregarElemento(aux2, &ordenadaFinal);
+            apilar(&pilaux, desapilar(&pilab));
+        }
+        else if(!pilavacia(&pilaa) && pilavacia(&pilab))
+        {
+            aux=tope(&pilaa);
+            agregarElemento(aux, &ordenadaFinal);
+            apilar(&pilaux, desapilar(&pilaa));
+        }
+        else
+        {
+            flag=1;
+        }
+    }
+    return ordenadaFinal;
+}
+
+void agregarElemento(int aux, Pila *pilaOrdenada)
+{
+    int flag=0;
+    Pila pilaux;
+    inicpila(&pilaux);
+    while(flag!=1 && !pilavacia(pilaOrdenada))
+    {
+        if(tope(pilaOrdenada) <= aux)
+        {
+            flag=1;
+            apilar(&pilaux, aux);
+        }else{
+                apilar(&pilaux, desapilar(pilaOrdenada));
+        }
+    }
+    if(pilavacia(pilaOrdenada))
+    {
+        apilar(&pilaux, aux);
+    }
+    while(!pilavacia(&pilaux))
+    {
+        apilar(pilaOrdenada, desapilar(&pilaux));
+    }
+}
+
