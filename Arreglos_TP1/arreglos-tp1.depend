@@ -1,0 +1,25 @@
+# depslib dependency file v1.0
+1774725332 source:f:\asdasdas\arreglos-tp1\main.c
+	<stdio.h>
+	<stdlib.h>
+	"pila.h"
+
+1774572312 source:e:\asdasdas\arreglos-tp1\main.c
+	<stdio.h>
+	<stdlib.h>
+	"pila.h"
+
+1490112218 source:e:\asdasdas\arreglos-tp1\pila.c
+	"pila.h"
+
+1490112218 e:\asdasdas\arreglos-tp1\pila.h
+	<stdio.h>
+	<malloc.h>
+
+1490112218 source:f:\asdasdas\arreglos-tp1\pila.c
+	"pila.h"
+
+1490112218 f:\asdasdas\arreglos-tp1\pila.h
+	<stdio.h>
+	<malloc.h>
+
