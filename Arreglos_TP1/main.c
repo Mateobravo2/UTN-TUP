@@ -24,8 +24,9 @@ int insertarCaracter(char vec3[], char car, int validos);
 //PUNTO 8
 int maximoCaracter(char vec3[], int validos);
 //PUNTO 9
-int verificarCapicuaInt();
-
+int verificarCapicuaInt(int vec1[], int validos);
+//PUNTO 10
+void invertirArreglo();
 
 int main()
 {
@@ -48,8 +49,8 @@ void menu()
         printf("|[5]  CARGAR, MOSTRAR Y SUMAR FLOAT |\n");
         printf("|[6]  BUSCAR ELEMENTO               |\n");
         printf("|[7]  INSERTAR CARACTER EN ARREGLO  |\n");
-        printf("|[8]  |\n");
-        printf("|[9]  |\n");
+        printf("|[8]  VER MAXIMO CARACTER           |\n");
+        printf("|[9]  VERIFICAR CAPICUA             |\n");
         printf("|[10] |\n");
         printf("|[11] |\n");
         printf("|[12] |\n");
@@ -145,13 +146,14 @@ void menu()
                 }break;
             case 9:
                 {
+                    int auxiliar=0;
                     printf("Que tipo de arreglo desea ingresar?:\n");
                     printf("(Enteros / 1  |  Flotantes / 2  |  Caracteres / 3)\n");
                     scanf("%i", &aux);
                     if(aux == 1)
                     {
                         validos = valoresValidosInt(vec1, 100);
-                        aux = verificarCapicuaInt(vec1, validos);
+                        auxiliar = verificarCapicuaInt(vec1, validos);
                     }
                     else if(aux == 2)
                     {
@@ -163,9 +165,22 @@ void menu()
                     }
                     else
                     {
-                        printf("~ ~ ~ INGRESE UN VALOR VALIDO ~ ~ ~");
-                    }break;
-                }
+                        printf("\n~ ~ ~ INGRESE UN VALOR VALIDO ~ ~ ~\n");
+                    }
+
+                    if(auxiliar == 1)
+                    {
+                        printf("\nEl arreglo es capicua !!!\n");
+                        mostrarElementos(vec1, validos);
+                    }
+                    else
+                    {
+                        printf("\n- El arreglo no es capicua -\n");
+                        mostrarElementos(vec1, validos);
+                    }
+                    system("pause");
+                    system("cls");
+                }break;
             case 10:
                 {
 
@@ -190,9 +205,9 @@ void menu()
 
 /*
 PUNTO 1
-Hacer una funci髇 que reciba como par醡etro un arreglo de n鷐eros enteros y permita que
-el usuario ingrese valores al mismo por teclado. La funci髇 debe retornar la cantidad de
-elementos cargados en el arreglo (o pueden utilizar como puntero v醠idos).
+Hacer una funci贸n que reciba como par谩metro un arreglo de n煤meros enteros y permita que
+el usuario ingrese valores al mismo por teclado. La funci贸n debe retornar la cantidad de
+elementos cargados en el arreglo (o pueden utilizar como puntero v谩lidos).
 */
 
 int valoresValidosInt(int vec1[], int dimension)
@@ -207,8 +222,8 @@ int valoresValidosInt(int vec1[], int dimension)
         if(i < dimension)
         {
         printf("\nQuiere seguir ingresando valores? s/n: ");
-        fflush(stdin);
-        scanf("%c", &aux2);
+//        fflush(stdin);
+        scanf(" %c", &aux2);
         }
         if(aux2!='s' && aux2!='n')
         {
@@ -220,8 +235,8 @@ int valoresValidosInt(int vec1[], int dimension)
 
 /*
 PUNTO 2
-Hacer una funci髇 que reciba como par醡etro un arreglo y la cantidad de elementos (v醠idos)
-cargados en 閘 y los muestre por pantalla.
+Hacer una funci贸n que reciba como par谩metro un arreglo y la cantidad de elementos (v谩lidos)
+cargados en 茅l y los muestre por pantalla.
 */
 
 void mostrarElementos(int vec1[], int validos)
@@ -240,8 +255,8 @@ void mostrarElementos(int vec1[], int validos)
 
 /*
 PUNTO 3
-Hacer una funci髇 que reciba como par醡etro un arreglo y la cantidad de elementos (v醠idos)
-cargados en 閘 y calcule la suma de sus elementos.
+Hacer una funci贸n que reciba como par谩metro un arreglo y la cantidad de elementos (v谩lidos)
+cargados en 茅l y calcule la suma de sus elementos.
 */
 
 int calcularSuma(int vec1[], int validos)
@@ -256,8 +271,8 @@ int calcularSuma(int vec1[], int validos)
 
 /*
 PUNTO 4
-Hacer una funci髇 que reciba como par醡etro un arreglo, la cantidad de elementos (v醠idos)
-cargados en 閘 y una Pila. La funci髇 debe copiar los elementos del arreglo en la pila.
+Hacer una funci贸n que reciba como par谩metro un arreglo, la cantidad de elementos (v谩lidos)
+cargados en 茅l y una Pila. La funci贸n debe copiar los elementos del arreglo en la pila.
 */
 void copiarArregloEnPila(int vec1[], int validos, Pila *pilita)
 {
@@ -269,8 +284,8 @@ void copiarArregloEnPila(int vec1[], int validos, Pila *pilita)
 
 /*
 PUNTO 5
-Realizar una funci髇 que sume los elementos de un arreglo de n鷐eros reales (float) de
-dimensi髇 100. (se recomienda hacer una funci髇 para cargar y otra para mostrar para este
+Realizar una funci贸n que sume los elementos de un arreglo de n煤meros reales (float) de
+dimensi贸n 100. (se recomienda hacer una funci贸n para cargar y otra para mostrar para este
 tipo de dato asociado al arreglo)
 */
 
@@ -318,7 +333,7 @@ float sumaArregloFloat(float vec2[], int validos)
 
 /*
 PUNTO 6
-Realizar una funci髇 que indique si un elemento dado se encuentra en un arreglo de
+Realizar una funci贸n que indique si un elemento dado se encuentra en un arreglo de
 caracteres.
 */
 
@@ -338,7 +353,7 @@ int encontrarCaracter(char vec3[], int validos, int car)
 
 /*
 PUNTO 7
-Realizar una funci髇 que inserte un car醕ter en un arreglo ordenado alfab閠icamente,
+Realizar una funci贸n que inserte un car谩cter en un arreglo ordenado alfab茅ticamente,
 conservando el orden.
 */
 
@@ -399,7 +414,7 @@ int insertarCaracter(char vec3[], char car, int validos)
 
 /*
 PUNTO 8
-Realizar una funci髇 que obtenga el m醲imo car醕ter de un arreglo dado.
+Realizar una funci贸n que obtenga el m谩ximo car谩cter de un arreglo dado.
 */
 
 int maximoCaracter(char vec3[], int validos)
@@ -419,15 +434,56 @@ int maximoCaracter(char vec3[], int validos)
 
 /*
 PUNTO 9
-Realizar una funci髇 que determine si un arreglo es capic鷄.
+Realizar una funci贸n que determine si un arreglo es capic煤a.
+PREGUNTAR QUE TIPOS DE ARREGLOS (INT FLOAT CHAR O TODOS)
 */
 
 int verificarCapicuaInt(int vec1[], int validos)
 {
-    int aux=0;
-
-
-
+    int aux=1, i=0, i2=validos-1;
+    while(i < validos && aux != 0)
+    {
+        if(vec1[i] == vec1[i2])
+        {
+            aux = 1;
+        }
+        else
+        {
+            aux = 0;
+        }
+        i2--;
+        i++;
+    }
     return aux;
 }
 
+
+
+
+/*
+PUNTO 10
+Realizar una funci贸n que invierta los elementos de un arreglo. (sin utilizar un arreglo auxiliar)
+PREGUNTAR QUE TIPOS DE ARREGLOS (INT FLOAT CHAR O TODOS)
+*/
+
+void invertirArreglo()
+{
+    while
+}
+
+/*
+PUNTO 11
+*/
+
+
+/*
+PUNTO 12
+Dados dos arreglos ordenados alfab茅ticamente, crear un tercer arreglo con los elementos de
+los dos primeros intercalados, de manera que quede un arreglo tambi茅n ordenado
+alfab茅ticamente.
+*/
+
+juntarArreglos(char vec3, char vec4)
+{
+
+}
