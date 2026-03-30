@@ -27,6 +27,12 @@ int maximoCaracter(char vec3[], int validos);
 int verificarCapicuaInt(int vec1[], int validos);
 //PUNTO 10
 void invertirArreglo(int vec1[], int validos);
+//PUNTO 11
+
+//PUNTO 12
+int juntarArreglos(char vecChar1[], char vecChar2[], char vec3[], int validos, int aux);
+//PUNTO 13
+int sumarAnteriores(int vec1, int validos);
 
 int main()
 {
@@ -53,7 +59,7 @@ void menu()
         printf("|[9]  VERIFICAR CAPICUA             |\n");
         printf("|[10] INVERTIR ARREGLO              |\n");
         printf("|[11] |\n");
-        printf("|[12] |\n");
+        printf("|[12] JUNTAR ARREGLOS               |\n");
         printf("|[13] |\n");
         printf("-------------------------------------\n");
         scanf("%i", &op);
@@ -61,130 +67,142 @@ void menu()
         switch(op)
         {
             default:
-                {
-                    printf("~ ~ ~ INGRESE UN VALOR VALIDO ~ ~ ~");
-                }break;
+            {
+                printf("~ ~ ~ INGRESE UN VALOR VALIDO ~ ~ ~");
+            }break;
             case 0:
-                {
-                    printf("- - - FINALIZANDO EL PROGRAMA - - -");
-                }break;
+            {
+                printf("- - - FINALIZANDO EL PROGRAMA - - -");
+            }break;
             case 1:
-                {
-                    validos = valoresValidosInt(vec1, 3);
-                    printf("\nSe cargaron %i elementos en el arreglo\n", validos);
-                    system("pause");
-                    system("cls");
-                }break;
+            {
+                validos = valoresValidosInt(vec1, 3);
+                printf("\nSe cargaron %i elementos en el arreglo\n", validos);
+                system("pause");
+                system("cls");
+            }break;
             case 2:
-                {
-                    mostrarElementos(vec1, validos);
-                    system("pause");
-                    system("cls");
-                }break;
+            {
+                mostrarElementos(vec1, validos);
+                system("pause");
+                system("cls");
+            }break;
             case 3:
-                {
-                    aux = calcularSuma(vec1, validos);
-                    printf("\nLa suma de todos los valores del arreglo es: %i\n", aux);
-                    system("pause");
-                    system("cls");
-                }break;
+            {
+                aux = calcularSuma(vec1, validos);
+                printf("\nLa suma de todos los valores del arreglo es: %i\n", aux);
+                system("pause");
+                system("cls");
+            }break;
             case 4:
-                {
-                    Pila pilita;
-                    inicpila(&pilita);
-                    copiarArregloEnPila(vec1, validos, &pilita);
-                    mostrar(&pilita);
-                    system("pause");
-                    system("cls");
-                }break;
+            {
+                Pila pilita;
+                inicpila(&pilita);
+                copiarArregloEnPila(vec1, validos, &pilita);
+                mostrar(&pilita);
+                system("pause");
+                system("cls");
+            }break;
             case 5:
-                {
-                    validos = valoresValidosFloat(vec2, 100);
-                    mostrarElementosFloat(vec2, validos);
-                    aux2=sumaArregloFloat(vec2, validos);
-                    printf("La suma de todos los elementos del arreglo es: %.2f\n", aux2);
-                    system("pause");
-                    system("cls");
-                }break;
+            {
+                validos = valoresValidosFloat(vec2, 100);
+                mostrarElementosFloat(vec2, validos);
+                aux2=sumaArregloFloat(vec2, validos);
+                printf("La suma de todos los elementos del arreglo es: %.2f\n", aux2);
+                system("pause");
+                system("cls");
+            }break;
             case 6:
+            {
+                int flag=0;
+                printf("Que elemento desea encontrar en el arreglo?: ");
+    //                    fflush(stdin);
+                scanf(" %c", &car);
+                aux = car;
+                flag = encontrarCaracter(vec3, 5, aux);
+                if(flag == 1)
                 {
-                    int flag=0;
-                    printf("Que elemento desea encontrar en el arreglo?: ");
-//                    fflush(stdin);
-                    scanf(" %c", &car);
-                    aux = car;
-                    flag = encontrarCaracter(vec3, 5, aux);
-                    if(flag == 1)
-                    {
-                        printf("\nEl elemento "" %c ""  se encuentra en el arreglo\n", car);
-                    }else
-                    {
-                        printf("\nEl elemento "" %c ""  NO se encuentra en el arreglo\n", car);
-                    }
-                    system("pause");
-                    system("cls");
-                }break;
+                    printf("\nEl elemento "" %c ""  se encuentra en el arreglo\n", car);
+                }
+                else
+                {
+                    printf("\nEl elemento "" %c ""  NO se encuentra en el arreglo\n", car);
+                }
+                system("pause");
+                system("cls");
+            }break;
             case 7:
-                {
-                    validos = valoresValidosChar(vec3, 20);
-                    printf("\nQue elemento desea insertar en el arreglo?: ");
-//                    fflush(stdin);
-                    scanf(" %c", &car);
-                    mostrarElementosChar(vec3, validos);
-                    validos = insertarCaracter(vec3, car, validos);
-                    mostrarElementosChar(vec3, validos);
-                    system("pause");
-                    system("cls");
-                }break;
+            {
+                validos = valoresValidosChar(vec3, 20);
+                printf("\nQue elemento desea insertar en el arreglo?: ");
+    //                    fflush(stdin);
+                scanf(" %c", &car);
+                mostrarElementosChar(vec3, validos);
+                validos = insertarCaracter(vec3, car, validos);
+                mostrarElementosChar(vec3, validos);
+                system("pause");
+                system("cls");
+            }break;
             case 8:
-                {
-                    validos = valoresValidosChar(vec3, 20);
-                    aux3 = maximoCaracter(vec3, validos);
-                    printf("El maximo caracter del arreglo es: %c (%i)\n", aux3, aux3);
-                    system("pause");
-                    system("cls");
-                }break;
+            {
+                validos = valoresValidosChar(vec3, 20);
+                aux3 = maximoCaracter(vec3, validos);
+                printf("El maximo caracter del arreglo es: %c (%i)\n", aux3, aux3);
+                system("pause");
+                system("cls");
+            }break;
             case 9:
+            {
+                int auxiliar=0;
+                validos = valoresValidosInt(vec1, 100);
+                auxiliar = verificarCapicuaInt(vec1, validos);
+                if(auxiliar == 1)
                 {
-                    int auxiliar=0;
-                        validos = valoresValidosInt(vec1, 100);
-                        auxiliar = verificarCapicuaInt(vec1, validos);
-                    if(auxiliar == 1)
-                    {
-                        printf("\nEl arreglo es capicua !!!\n");
-                        mostrarElementos(vec1, validos);
-                    }
-                    else
-                    {
-                        printf("\n- El arreglo no es capicua -\n");
-                        mostrarElementos(vec1, validos);
-                    }
-                    system("pause");
-                    system("cls");
-                }break;
+                    printf("\nEl arreglo es capicua !!!\n");
+                    mostrarElementos(vec1, validos);
+                }
+                else
+                {
+                    printf("\n- El arreglo no es capicua -\n");
+                    mostrarElementos(vec1, validos);
+                }
+                system("pause");
+                system("cls");
+            }break;
             case 10:
-                {
-                    validos = valoresValidosInt(vec1, 100);
-                    mostrarElementos(vec1, validos);
-                    invertirArreglo(vec1, validos);
-                    mostrarElementos(vec1, validos);
-                }break;
+            {
+                validos = valoresValidosInt(vec1, 100);
+                mostrarElementos(vec1, validos);
+                invertirArreglo(vec1, validos);
+                mostrarElementos(vec1, validos);
+                system("pause");
+                system("cls");
+            }break;
             case 11:
-                {
+            {
 
-                }break;
+            }break;
             case 12:
-                {
-
-                }break;
+            {
+                int validos2=0;
+                char vecChar1[100], vecChar2[100];
+                validos = valoresValidosChar(vecChar1, 100);
+                aux = valoresValidosChar(vecChar2, 100);
+                mostrarElementosChar(vecChar1, validos);
+                mostrarElementosChar(vecChar2, aux);
+                validos2 = juntarArreglos(vecChar1, vecChar2, vec3, validos, aux);
+                mostrarElementosChar(vec3, validos2);
+                system("pause");
+                system("cls");
+            }break;
             case 13:
-                {
+            {
+                int vecInt1[100];
 
-                }break;
-
+            }break;
         }
-    }while(op!=0);
-
+    }
+    while(op!=0);
 }
 
 /*
@@ -205,15 +223,16 @@ int valoresValidosInt(int vec1[], int dimension)
         i++;
         if(i < dimension)
         {
-        printf("\nQuiere seguir ingresando valores? s/n: ");
+            printf("\nQuiere seguir ingresando valores? s/n: ");
 //        fflush(stdin);
-        scanf(" %c", &aux2);
+            scanf(" %c", &aux2);
         }
         if(aux2!='s' && aux2!='n')
         {
             printf("\n~ ~ ~ INGRESE UN VALOR VALIDO ~ ~ ~\n");
         }
-    }while(aux2 != 'n' && i < dimension);
+    }
+    while(aux2 != 'n' && i < dimension);
     return i;
 }
 
@@ -284,15 +303,16 @@ int valoresValidosFloat(float vec2[], int dimension)
         i++;
         if(i < dimension)
         {
-        printf("\nQuiere seguir ingresando valores? s/n: ");
-        fflush(stdin);
-        scanf("%c", &aux2);
+            printf("\nQuiere seguir ingresando valores? s/n: ");
+            fflush(stdin);
+            scanf("%c", &aux2);
         }
         if(aux2!='s' && aux2!='n')
         {
             printf("\n~ ~ ~ INGRESE UN VALOR VALIDO ~ ~ ~\n");
         }
-    }while(aux2!='n' && i < dimension);
+    }
+    while(aux2!='n' && i < dimension);
     return i;
 }
 
@@ -348,25 +368,26 @@ int valoresValidosChar(char vec3[], int lim)
     do
     {
         printf("Ingrese el valor que quiere ingresar: ");
-//      fflush(stdin);
-        scanf(" %c", &vec3[i]);
+        fflush(stdin);
+        scanf("%c", &vec3[i]);
         i++;
         if(i<lim)
         {
             printf("\nQuiere seguir ingresando valores? s/n: ");
-    //      fflush(stdin);
-            scanf(" %c", &aux2);
+            fflush(stdin);
+            scanf("%c", &aux2);
 
             while(aux2!='s' && aux2!='n')
             {
                 printf("\n~ ~ ~ INGRESE UN VALOR VALIDO ~ ~ ~\n");
                 printf("\nQuiere seguir ingresando valores? s/n: ");
-    //          fflush(stdin);
-                scanf(" %c", &aux2);
+                fflush(stdin);
+                scanf("%c", &aux2);
             }
         }
 
-    }while(aux2!='n' && i<lim);
+    }
+    while(aux2!='n' && i<lim);
     return i;
 }
 
@@ -412,7 +433,8 @@ int maximoCaracter(char vec3[], int validos)
             maximo = vec3[i];
         }
         i++;
-    }while(i < validos);
+    }
+    while(i < validos);
     return maximo;
 }
 
@@ -472,7 +494,49 @@ los dos primeros intercalados, de manera que quede un arreglo también ordenado
 alfabéticamente.
 */
 
-juntarArreglos(char vec3, char vec4)
+int juntarArreglos(char vecChar1[], char vecChar2[], char vec3[], int val1, int val2)
+{
+    int i = 0, j = 0, k = 0;
+    do
+    {
+        if(vecChar1[i] <= vecChar2[j])
+        {
+            vec3[k] = vecChar1[i];
+            i++;
+        }
+        else
+        {
+            vec3[k] = vecChar2[j];
+            j++;
+        }
+        k++;
+    }
+    while(k < (val1+val2) && i < val1 && j < val2);
+
+    while(i < val1)
+    {
+        printf("\nA\n");
+        vec3[k] = vecChar1[i];
+        i++;
+        k++;
+    }
+
+    while(j < val2)
+    {
+        vec3[k] = vecChar2[j];
+        j++;
+        k++;
+    }
+    return k;
+}
+
+/*
+PUNTO 13
+Dado el vector {1,5,6,7,8} escribir un programa que genere otro vector con la suma del
+contenido de todo los elementos anteriores al índice actual: {1,6,12,19,27}.
+*/
+
+int sumarAnteriores(int vec1, int validos)
 {
 
 }
