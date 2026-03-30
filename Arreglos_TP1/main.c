@@ -26,7 +26,7 @@ int maximoCaracter(char vec3[], int validos);
 //PUNTO 9
 int verificarCapicuaInt(int vec1[], int validos);
 //PUNTO 10
-void invertirArreglo();
+void invertirArreglo(int vec1[], int validos);
 
 int main()
 {
@@ -51,7 +51,7 @@ void menu()
         printf("|[7]  INSERTAR CARACTER EN ARREGLO  |\n");
         printf("|[8]  VER MAXIMO CARACTER           |\n");
         printf("|[9]  VERIFICAR CAPICUA             |\n");
-        printf("|[10] |\n");
+        printf("|[10] INVERTIR ARREGLO              |\n");
         printf("|[11] |\n");
         printf("|[12] |\n");
         printf("|[13] |\n");
@@ -147,27 +147,8 @@ void menu()
             case 9:
                 {
                     int auxiliar=0;
-                    printf("Que tipo de arreglo desea ingresar?:\n");
-                    printf("(Enteros / 1  |  Flotantes / 2  |  Caracteres / 3)\n");
-                    scanf("%i", &aux);
-                    if(aux == 1)
-                    {
                         validos = valoresValidosInt(vec1, 100);
                         auxiliar = verificarCapicuaInt(vec1, validos);
-                    }
-                    else if(aux == 2)
-                    {
-
-                    }
-                    else if(aux == 3)
-                    {
-
-                    }
-                    else
-                    {
-                        printf("\n~ ~ ~ INGRESE UN VALOR VALIDO ~ ~ ~\n");
-                    }
-
                     if(auxiliar == 1)
                     {
                         printf("\nEl arreglo es capicua !!!\n");
@@ -183,7 +164,10 @@ void menu()
                 }break;
             case 10:
                 {
-
+                    validos = valoresValidosInt(vec1, 100);
+                    mostrarElementos(vec1, validos);
+                    invertirArreglo(vec1, validos);
+                    mostrarElementos(vec1, validos);
                 }break;
             case 11:
                 {
@@ -457,18 +441,23 @@ int verificarCapicuaInt(int vec1[], int validos)
     return aux;
 }
 
-
-
-
 /*
 PUNTO 10
 Realizar una función que invierta los elementos de un arreglo. (sin utilizar un arreglo auxiliar)
 PREGUNTAR QUE TIPOS DE ARREGLOS (INT FLOAT CHAR O TODOS)
 */
 
-void invertirArreglo()
+void invertirArreglo(int vec1[], int validos)
 {
-    while
+    int aux = 0, aux2 = 0;
+    for(int i = 0; i < validos; i++)
+    {
+        aux = vec1[i];
+        aux2 = vec1[validos-1];
+        vec1[validos-1] = aux;
+        vec1[i] = aux2;
+        validos--;
+    }
 }
 
 /*
