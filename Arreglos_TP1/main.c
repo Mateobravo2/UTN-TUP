@@ -28,11 +28,14 @@ int verificarCapicuaInt(int vec1[], int validos);
 //PUNTO 10
 void invertirArreglo(int vec1[], int validos);
 //PUNTO 11
-
+void ordenPorSeleccion(int vec1[], int validos);
+int buscarMenor(int vec1[], int i, int validos);
+void ordenPorInsercion(int vec1[], int validos);
+void insertar(int vec1[], int posInic, int dato);
 //PUNTO 12
 int juntarArreglos(char vecChar1[], char vecChar2[], char vec3[], int validos, int aux);
 //PUNTO 13
-int sumarAnteriores(int vec1, int validos);
+int sumarAnteriores(int vec1[], int validos);
 
 int main()
 {
@@ -58,9 +61,10 @@ void menu()
         printf("|[8]  VER MAXIMO CARACTER           |\n");
         printf("|[9]  VERIFICAR CAPICUA             |\n");
         printf("|[10] INVERTIR ARREGLO              |\n");
-        printf("|[11] |\n");
+        printf("|[11] ORDENAR ARREGLOS              |\n");
         printf("|[12] JUNTAR ARREGLOS               |\n");
         printf("|[13] |\n");
+        printf("|[0]           SALIR                |\n");
         printf("-------------------------------------\n");
         scanf("%i", &op);
         system("cls");
@@ -180,7 +184,27 @@ void menu()
             }break;
             case 11:
             {
-
+                validos = valoresValidosInt(vec1, 100);
+                system("cls");
+                printf("Como desea ordenar su arreglo? ");
+                printf("\nSELECCION (1)      INSERCION (2):\n");
+                scanf("%i", &aux);
+                if(aux == 1)
+                {
+                    ordenPorSeleccion(vec1, validos);
+                    mostrarElementos(vec1, validos);
+                }
+                else if(aux == 2)
+                {
+                    ordenPorInsercion(vec1, validos);
+                    mostrarElementos(vec1, validos);
+                }
+                else
+                {
+                    printf("\n~ ~ ~ INGRESE UNA OPCION VALIDA ~ ~ ~\n");
+                }
+                system("pause");
+                system("cls");
             }break;
             case 12:
             {
@@ -197,7 +221,10 @@ void menu()
             }break;
             case 13:
             {
-                int vecInt1[100];
+                int vecInt1[100] = {1,5,6,7,8};
+                int vecSuma[100];
+                insertarSumaAnteriores(vecInt1, vecSuma, 5);
+
 
             }break;
         }
@@ -484,8 +511,61 @@ void invertirArreglo(int vec1[], int validos)
 
 /*
 PUNTO 11
+Ordenar un arreglo según los siguientes métodos:
+a. Seleccion
+b. Inserción
 */
 
+void ordenPorSeleccion(int vec1[], int validos)
+{
+    int men, aux, i=0;
+    while(i < validos-1)
+    {
+        men = buscarMenor(vec1, i, validos);
+        aux = vec1[men];
+        vec1[men] = vec1[i];
+        vec1[i] = aux;
+        i++;
+    }
+}
+
+int buscarMenor(int vec1[], int inic, int validos)
+{
+    int men = vec1[inic];
+    int posMenor = inic;
+    int i = inic+1;
+    while(i < validos)
+    {
+        if(men > vec1[i])
+        {
+            men = vec1[i];
+            posMenor = i;
+        }
+        i++;
+    }
+    return posMenor;
+}
+
+void ordenPorInsercion(int vec1[], int validos)
+{
+    int i = 0;
+    while(i < validos-1)
+    {
+        insertar(vec1, i, vec1[i+1]);
+        i++;
+    }
+}
+
+void insertar(int vec1[], int posInic, int dato)
+{
+    int i = posInic;
+    while(i >= 0 && dato < vec1[i])
+    {
+        vec1[i+1] = vec1[i];
+        i--;
+    }
+    vec1[i+1] = dato;
+}
 
 /*
 PUNTO 12
@@ -536,7 +616,22 @@ Dado el vector {1,5,6,7,8} escribir un programa que genere otro vector con la su
 contenido de todo los elementos anteriores al índice actual: {1,6,12,19,27}.
 */
 
-int sumarAnteriores(int vec1, int validos)
+int sumarAnteriores(int vec1[], int validos)
 {
+    int i=0;
 
+    while(i < validos-1)
+    {
+
+    }
+
+}
+
+void insertarSumaAnteriores(int vecInt[], int vecSuma[], int validos)
+{
+    int i=0;
+    while(i < validos)
+    {
+
+    }
 }
