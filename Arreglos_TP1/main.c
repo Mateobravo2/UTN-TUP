@@ -36,6 +36,7 @@ void insertar(int vec1[], int posInic, int dato);
 int juntarArreglos(char vecChar1[], char vecChar2[], char vec3[], int validos, int aux);
 //PUNTO 13
 int sumarAnteriores(int vec1[], int validos);
+void insertarSumaAnteriores(int vecInt[], int vecSuma[], int validos);
 
 int main()
 {
@@ -50,22 +51,22 @@ void menu()
     char vec3[100], car, aux3;
     do
     {
-        printf("_____________________________________\n");
-        printf("|[1]  CARGAR ARREGLO                |\n");
-        printf("|[2]  MOSTRAR ARREGLO               |\n");
-        printf("|[3]  CALCULAR SUMA                 |\n");
-        printf("|[4]  COPIAR ARREGLO A PILA         |\n");
-        printf("|[5]  CARGAR, MOSTRAR Y SUMAR FLOAT |\n");
-        printf("|[6]  BUSCAR ELEMENTO               |\n");
-        printf("|[7]  INSERTAR CARACTER EN ARREGLO  |\n");
-        printf("|[8]  VER MAXIMO CARACTER           |\n");
-        printf("|[9]  VERIFICAR CAPICUA             |\n");
-        printf("|[10] INVERTIR ARREGLO              |\n");
-        printf("|[11] ORDENAR ARREGLOS              |\n");
-        printf("|[12] JUNTAR ARREGLOS               |\n");
-        printf("|[13] |\n");
-        printf("|[0]           SALIR                |\n");
-        printf("-------------------------------------\n");
+        printf("                                                _____________________________________\n");
+        printf("                                                |[1]  CARGAR ARREGLO                |\n");
+        printf("                                                |[2]  MOSTRAR ARREGLO               |\n");
+        printf("                                                |[3]  CALCULAR SUMA                 |\n");
+        printf("                                                |[4]  COPIAR ARREGLO A PILA         |\n");
+        printf("                                                |[5]  CARGAR, MOSTRAR Y SUMAR FLOAT |\n");
+        printf("                                                |[6]  BUSCAR ELEMENTO               |\n");
+        printf("                                                |[7]  INSERTAR CARACTER EN ARREGLO  |\n");
+        printf("                                                |[8]  VER MAXIMO CARACTER           |\n");
+        printf("                                                |[9]  VERIFICAR CAPICUA             |\n");
+        printf("                                                |[10] INVERTIR ARREGLO              |\n");
+        printf("                                                |[11] ORDENAR ARREGLOS              |\n");
+        printf("                                                |[12] JUNTAR ARREGLOS               |\n");
+        printf("                                                |[13] SUMAR ANTERIORES              |\n");
+        printf("                                                |[0]           SALIR                |\n");
+        printf("                                                -------------------------------------\n");
         scanf("%i", &op);
         system("cls");
         switch(op)
@@ -224,8 +225,12 @@ void menu()
                 int vecInt1[100] = {1,5,6,7,8};
                 int vecSuma[100];
                 insertarSumaAnteriores(vecInt1, vecSuma, 5);
-
-
+                printf("\nARREGLO\n");
+                mostrarElementos(vecInt1, 5);
+                printf("\nSUMA DE ANTERIORES\n");
+                mostrarElementos(vecSuma, 5);
+                system("pause");
+                system("cls");
             }break;
         }
     }
@@ -616,22 +621,24 @@ Dado el vector {1,5,6,7,8} escribir un programa que genere otro vector con la su
 contenido de todo los elementos anteriores al índice actual: {1,6,12,19,27}.
 */
 
-int sumarAnteriores(int vec1[], int validos)
+int sumarAnteriores(int vec1[], int limite)
 {
-    int i=0;
-
-    while(i < validos-1)
+    int i = 0, suma = 0 ;
+    while(i <= limite)
     {
-
+        suma = suma + vec1[i];
+        i++;
     }
-
+    return suma;
 }
 
 void insertarSumaAnteriores(int vecInt[], int vecSuma[], int validos)
 {
-    int i=0;
+    int i=0, suma=0;
     while(i < validos)
     {
-
+        suma = sumarAnteriores(vecInt, i);
+        vecSuma[i] = suma;
+        i++;
     }
 }
