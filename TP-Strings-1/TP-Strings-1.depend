@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1775515108 source:e:\programacion1\tp-strings\tp-strings-1\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
