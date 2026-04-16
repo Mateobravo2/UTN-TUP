@@ -189,6 +189,8 @@ void menu()
                     ordenPorSeleccionMatriz(4, 5, matriz2);
                     printf("\nMatriz ordenada: \n");
                     mostrarMatrizStrings(4, 5, matriz2);
+                    system("pause");
+                    system("cls");
                 }
                 break;
             default:
@@ -355,16 +357,6 @@ int buscarStringOrdenada(char matriz3[][7], int val, char pal[])
 }
 
 //PUNTO 11
-void ordenPorSeleccionMatriz(int r, int clm, char matriz2[][clm])
-{
-    int i;
-    int posmen = 0;
-    for(i = 0; i < r; i++)
-    {
-        posmen = buscarPosMenor(r, clm, matriz2, i);
-        intercambioPalabras(clm, matriz2, posmen, r);
-    }
-}
 
 int buscarPosMenor(int r, int clm, char matriz2[][clm], int pos)
 {
@@ -389,4 +381,15 @@ void intercambioPalabras(int clm, char matriz2[][clm], int posmenor, int r)
     strcpy(aux, matriz2[posmenor]);
     strcpy(matriz2[posmenor], matriz2[r]);
     strcpy(matriz2[r], aux);
+}
+
+void ordenPorSeleccionMatriz(int r, int clm, char matriz2[][clm])
+{
+    int i;
+    int posmen = 0;
+    for(i = 0; i < r; i++)
+    {
+        posmen = buscarPosMenor(r, clm, matriz2, i);
+        intercambioPalabras(clm, matriz2, posmen, i);
+    }
 }
