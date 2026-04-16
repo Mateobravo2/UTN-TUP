@@ -3,6 +3,9 @@
 #include <time.h>
 #include <string.h>
 
+#define R 3
+#define CLM 3
+
 void menu();
 //PUNTO 1
 void cargarMatriz(int r, int clm, int matriz1[][clm]);
@@ -17,34 +20,46 @@ float calcularPromedioMatriz(int r, int clm, int matriz1[][clm]);
 //PUNTO 6
 int encontrarNumero(int r, int clm, int matriz1[][clm], int num);
 //PUNTO 7
-void cargarArregloString(int r, int clm, char matriz2[][clm]);
+int cargarArregloString(int r, int clm, char matriz2[][clm]);
+//PUNTO 8
 void mostrarMatrizStrings(int r, int clm, char matriz2[][clm]);
+//PUNTO 9
+int buscarString(char matriz2[][5], int r, char pal[]);
+//PUNTO 10
+int buscarStringOrdenada(char matriz3[][7], int val, char pal[]);
+//PUNTO 11
+void intercambioPalabras(int clm, char matriz2[][clm], int posmenor, int r);
+int buscarPosMenor(int r, int clm, char matriz2[][clm], int pos);
+void ordenPorSeleccionMatriz(int r, int clm, char matriz2[][clm]);
 
 int main()
 {
     menu();
     return 0;
 }
-//MATRICES CON NUMEROS SE COMPLETA Y NO SE MODIFICA
-//CON STRINGS NO SE PUEDE MODIFICAR PERO SE PUEDE
+
 void menu()
 {
-    int op=0,existe=0;
+    int op=0,existe=0, aux;
+    int matriz1[R][CLM];
+    char matriz2[4][5];
     do
     {
-        int r = 0, clm = 0;
-        int matriz1[r][clm];
-        printf("                                    ___________________________________\n");
-        printf("                                    |[1]  CARGAR MATRIZ                     |\n");
-        printf("                                    |[2]  MOSTRAR MATRIZ CARGADA            |\n");
-        printf("                                    |[3]  CARGAR MATRIZ RANDOM              |\n");
-        printf("                                    |[4]  SUMAR CONTENIDO DE UNA MATRIZ     |\n");
-        printf("                                    |[5]  PROMEDIO DE UNA MATRIZ            |\n");
-        printf("                                    |[6]  ENCONTRAR ELEMENTO EN UNA MATRIZ  |\n");
-        printf("                                    |[7]  CARGAR ARREGLO DE PALABRAS        |\n");
-        printf("                                    |[0]  |\n");
-        printf("                                    -----------------------------------\n");
-        scanf("%i", &op);
+        printf("                                    _____________________________________________\n");
+        printf("                                    |[1]  CARGAR MATRIZ                         |\n");
+        printf("                                    |[2]  MOSTRAR MATRIZ CARGADA                |\n");
+        printf("                                    |[3]  CARGAR MATRIZ RANDOM                  |\n");
+        printf("                                    |[4]  SUMAR CONTENIDO DE UNA MATRIZ         |\n");
+        printf("                                    |[5]  PROMEDIO DE UNA MATRIZ                |\n");
+        printf("                                    |[6]  ENCONTRAR ELEMENTO EN UNA MATRIZ      |\n");
+        printf("                                    |[7]  CARGAR ARREGLO DE PALABRAS            |\n");
+        printf("                                    |[8]  MOSTRAR ARREGLO DE PALABRAS           |\n");
+        printf("                                    |[9]  BUSCAR STRING EN ARREGLO              |\n");
+        printf("                                    |[10] BUSCAR STRING EN ARREGLO OREDENADO    |\n");
+        printf("                                    |[11] ORDENAR ARREGLO STRINGS               |\n");
+        printf("                                    |[0]                SALIR                   |\n");
+        printf("                                    ---------------------------------------------\n");
+        scanf("%i", &op);;
         system("cls");
         switch(op)
         {
@@ -55,28 +70,24 @@ void menu()
                 break;
             case 1:
                 {
-                    printf("Que cantidad de filas desea en la matriz?: ");
-                    scanf("%i", &r);
-                    printf("Que cantidad de columnas desea en la matriz?: ");
-                    scanf("%i", &clm);
-                    cargarMatriz(r, clm, matriz1);
-                    mostrarMatriz(r, clm, matriz1);
+                    int matriz1[R][CLM];
+                    cargarMatriz(R, CLM, matriz1);
                     system("pause");
                     system("cls");
                 }
                 break;
             case 2:
                 {
-                    cargarMatriz(r, clm, matriz1);
-                    mostrarMatriz(r, clm, matriz1);
+                    int matriz1[R][CLM];
+                    mostrarMatriz(R, CLM, matriz1);
                     system("pause");
                     system("cls");
                 }
                 break;
             case 3:
                 {
-                    cargarMatrizRandom(r, clm, matriz1);
-                    mostrarMatriz(r, clm, matriz1);
+                    cargarMatrizRandom(R, CLM, matriz1);
+                    mostrarMatriz(R, CLM, matriz1);
                     system("pause");
                     system("cls");
                 }
@@ -84,9 +95,9 @@ void menu()
             case 4:
                 {
                     int res = 0;
-                    cargarMatriz(r, clm, matriz1);
-                    res = sumarContenido(r, clm, matriz1);
-                    mostrarMatriz(r, clm, matriz1);
+                    cargarMatriz(R, CLM, matriz1);
+                    res = sumarContenido(R, CLM, matriz1);
+                    mostrarMatriz(R, CLM, matriz1);
                     printf("\nLa suma del contenido de la matriz es: %i\n", res);
                     system("pause");
                     system("cls");
@@ -94,9 +105,9 @@ void menu()
                 break;
             case 5:
                 {
-                    cargarMatriz(r, clm, matriz1);
-                    float res = calcularPromedioMatriz(r, clm, matriz1);
-                    mostrarMatriz(r, clm, matriz1);
+                    cargarMatriz(R, CLM, matriz1);
+                    float res = calcularPromedioMatriz(R, CLM, matriz1);
+                    mostrarMatriz(R, CLM, matriz1);
                     printf("\nPromedio de la matriz: %.2f\n", res);
                     system("pause");
                     system("cls");
@@ -107,8 +118,8 @@ void menu()
                     int num, aux;
                     printf("Que elemento desea buscar?: ");
                     scanf("%i", &num);
-                    aux = encontrarNumero(r, clm, matriz1, num);
-                    mostrarMatriz(r, clm, matriz1);
+                    aux = encontrarNumero(R, CLM, matriz1, num);
+                    mostrarMatriz(R, CLM, matriz1);
                     if(aux == 1)
                     {
                         printf("\nEl numero |%i| se encuentra en la matriz\n", num);
@@ -123,34 +134,61 @@ void menu()
                 break;
             case 7:
                 {
-                    char matriz2[r][clm];
-                    cargarArregloString(r, clm, matriz2);
-                    mostrarMatrizStrings(r, clm, matriz2);
+                    aux = cargarArregloString(4, 5, matriz2);
+                    printf("\nSe ingresaron |%i| palabras\n", aux);
+                    system("pause");
+                    system("cls");
                 }
                 break;
             case 8:
                 {
-
+                    mostrarMatrizStrings(4, 5, matriz2);
                 }
                 break;
             case 9:
                 {
-
+                    char pal[5];
+                    printf("Que palabra de 4 letras quiere buscar: ");
+                    scanf(" %s", pal);
+                    aux = buscarString(matriz2, 4, pal);
+                    if(aux == -1)
+                    {
+                        printf("\nLa palabra NO se encuentra en la matriz. \n");
+                    }
+                    else
+                    {
+                        printf("\nLa palabra se encuentra en la matriz. \n");
+                    }
+                    system("pause");
+                    system("cls");
                 }
                 break;
             case 10:
                 {
-
+                    char matriz3[5][7] = {"Animal", "monos", "patos", "radio", "trompo"};
+                    char pal[5];
+                    printf("Que palabra de 4 letras quiere buscar: ");
+                    scanf(" %s", pal);
+                    aux = buscarStringOrdenada(matriz3, 5, pal);
+                    if(aux == -1)
+                    {
+                        printf("\nLa palabra NO se encuentra en la matriz. \n");
+                    }
+                    else
+                    {
+                        printf("\nLa palabra se encuentra en la matriz. \n");
+                    }
+                    system("pause");
+                    system("cls");
                 }
                 break;
             case 11:
                 {
-
-                }
-                break;
-            case 12:
-                {
-
+                    printf("\Matriz sin ordenar: \n");
+                    mostrarMatrizStrings(4, 5, matriz2);
+                    ordenPorSeleccionMatriz(4, 5, matriz2);
+                    printf("\nMatriz ordenada: \n");
+                    mostrarMatrizStrings(4, 5, matriz2);
                 }
                 break;
             default:
@@ -255,17 +293,28 @@ int encontrarNumero(int r, int clm, int matriz1[][clm], int num)
 }
 
 //PUNTO 7
-void cargarArregloString(int r, int clm, char matriz2[][clm])
+int cargarArregloString(int r, int clm, char matriz2[][clm])
 {
-    int i;
-    for(i = 0; i < r; i++)
+    int i, cont=0;
+    char x = 's';
+    while(cont < r-1)
     {
-        printf("Ingrese una cadena de |%i| caracteres: ", clm);
-        fflush(stdin);
-        gets(matriz2[i]);
+        for(i = 0; i < r && x == 's' ; i++)
+        {
+            printf("Ingrese una cadena de |%i| caracteres: ", clm-1);
+            scanf(" %s", matriz2[i]);
+            if(i < r-1)
+            {
+                printf("Quiere seguir cargando palabras?: ");
+                scanf(" %c", &x);
+            }
+            cont++;
+        }
     }
+    return cont;
 }
 
+//PUNTO 8
 void mostrarMatrizStrings(int r, int clm, char matriz2[][clm])
 {
     int i;
@@ -273,4 +322,71 @@ void mostrarMatrizStrings(int r, int clm, char matriz2[][clm])
         {
             printf(" |%s| \n", matriz2[i]);
         }
+}
+
+//PUNTO 9
+int buscarString(char matriz2[][5], int r, char pal[])
+{
+    int i, pos = -1;
+    for(i = 0; i < r && pos == -1; i++)
+    {
+         if(strcmpi(pal, matriz2[i]) == 0)
+         {
+             pos = i;
+         }
+    }
+    return pos;
+}
+
+//PUNTO 10
+int buscarStringOrdenada(char matriz3[][7], int val, char pal[])
+{
+    int i = 0, pos = -1, x;
+    while(i < val && pos == -1 && strcmpi(pal, matriz3[i]) >= 0)
+    {
+        if(strcmpi(pal, matriz3[i]) == 0)
+        {
+            pos = i;
+        }
+        printf("%i", i);
+        i++;
+    }
+    return pos;
+}
+
+//PUNTO 11
+void ordenPorSeleccionMatriz(int r, int clm, char matriz2[][clm])
+{
+    int i;
+    int posmen = 0;
+    for(i = 0; i < r; i++)
+    {
+        posmen = buscarPosMenor(r, clm, matriz2, i);
+        intercambioPalabras(clm, matriz2, posmen, r);
+    }
+}
+
+int buscarPosMenor(int r, int clm, char matriz2[][clm], int pos)
+{
+    int posmenor = pos;
+    char palabraMenor[clm];
+    strcpy(palabraMenor, matriz2[pos]);
+    int i;
+    for(i = pos+1; i < r; i++)
+    {
+        if(strcmpi(palabraMenor, matriz2[i]) > 0)
+        {
+            strcpy(palabraMenor, matriz2[i]);
+            posmenor = i;
+        }
+    }
+    return posmenor;
+}
+
+void intercambioPalabras(int clm, char matriz2[][clm], int posmenor, int r)
+{
+    char aux[clm];
+    strcpy(aux, matriz2[posmenor]);
+    strcpy(matriz2[posmenor], matriz2[r]);
+    strcpy(matriz2[r], aux);
 }
