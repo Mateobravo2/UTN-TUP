@@ -4,6 +4,7 @@
 #include "pila.h"
 
 #define ARCHIVO "enteros.bin"
+#define DIM 50
 
 typedef struct
 {
@@ -38,6 +39,8 @@ void mostrarAlumnosRangoEdad(char archivo[], int menor, int mayor);
 void buscarAlumnoMayor(char archivo[]);
 //PUNTO 11
 int cantidadAlumnosEnAnio(char archivo[], int anio);
+//PUNTO 12
+int crearArregloAlumno(Alumno alumnosArr[], int dim);
 
 int main()
 {
@@ -49,6 +52,7 @@ void menu()
 {
     int op, aux = 0, edad, aux2 = 0;
     char alumnos[20];
+    Alumno alumnosArr[DIM];
     Pila pilita;
     inicpila(&pilita);
     do
@@ -95,7 +99,8 @@ void menu()
                 }break;
             case 3:
                 {
-                    contarElementosArchivoInt(ARCHIVO);
+                    aux = contarElementosArchivoInt(ARCHIVO);
+                    printf(" ~ ~ ~El archivo tiene |%i| elementos ~ ~ ~ \n", aux);
                     system("pause");
                     system("cls");
                 }break;
@@ -185,7 +190,10 @@ void menu()
                 }break;
             case 12:
                 {
-
+                    printf("Ingrese el nombre del archivo que quiere leer: ");
+                    scanf(" %s", alumnos);
+                    strcat(alumnos, ".bin");
+                    crearArregloAlumno(alumnosArr, DIM);
                     system("pause");
                     system("cls");
                 }break;
@@ -266,7 +274,7 @@ Alumno crearAlumno()
     scanf(" %s", alum.nombreYApellido);
     printf("Ingrese la edad del alumno: ");
     scanf("%i", &alum.edad);
-    printf("Ingrese el anio que cursa el alumno: ");
+    printf("Ingrese el anio que cursa el alumno: \n");
     scanf("%i", &alum.anio);
     return alum;
 }
@@ -442,3 +450,33 @@ int cantidadAlumnosEnAnio(char archivo[], int anio)
 }
 
 //PUNTO 12
+int crearArregloAlumno(Alumno alumnosArr[], int dim)
+{
+    int i;
+    char op = 's';
+    for(i = 0; i < dim; i++)
+    {
+        alumnosArr[i] = crearAlumno();
+        printf("Desea seguir cargando alumnos? (s / n)");
+        scanf(" %c", &op);
+    }
+    return i;
+}
+
+void cargarArchivoConArreglo(Alumno alumnosArr[], int validos, char archivo[])
+{
+    FILE *archi;
+    Alumno aux;
+    archi = fopen(archivo, "ab");
+    for(int i = 0; i < validos; i++)
+    {
+        aux = alumnosArr[i]
+        if(archi != NULL)
+        {
+            while(!feof(archi))
+            {
+                fwrite(&aux, sizeof(Alumno), 1, archi);
+            }
+        }
+    }
+}
