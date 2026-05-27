@@ -1,0 +1,12 @@
+# depslib dependency file v1.0
+1779321317 source:d:\mateo\facultad\programacion i\tparchivos\tp7-archivos\main.c
+	<stdio.h>
+	<stdlib.h>
+
+1773694836 source:d:\mateo\facultad\programacion i\tparchivos\tp7-archivos\pila.c
+	"pila.h"
+
+1773694836 d:\mateo\facultad\programacion i\tparchivos\tp7-archivos\pila.h
+	<stdio.h>
+	<malloc.h>
+
