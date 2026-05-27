@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1778863087 source:d:\mateo\facultad\programacion i\tppunterosdobles\tppunterosdobles\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
