@@ -15,6 +15,7 @@ typedef struct
 }Alumno;
 
 void menu();
+void nombreDeArchivo(char alumnos[]);
 //PUNTO 1
 void agregarElementoArchivo(char archivo[]);
 //PUNTO 2
@@ -41,6 +42,16 @@ void buscarAlumnoMayor(char archivo[]);
 int cantidadAlumnosEnAnio(char archivo[], int anio);
 //PUNTO 12
 int crearArregloAlumno(Alumno alumnosArr[], int dim);
+void cargarArchivoConArreglo(Alumno alumnosArr[], int validos, char archivo[]);
+int cargarArregloConArchivo(Alumno alumnosArr[], int validos, char archivo[]);
+void mostrarArregloAlumno(Alumno alumnoArr[], int validos);
+//PUNTO 13
+int cantidadDeRegistrosEnArchivo(char archivo[]);
+//PUNTO 14
+void mostrarRegistroElegido(char archivo[], int num);
+//PUNTO 15
+void modificarRegistroElegido(char archivo[], int num);
+Alumno modificarCamposDeAlumnos(Alumno aux);
 
 int main()
 {
@@ -50,33 +61,33 @@ int main()
 
 void menu()
 {
-    int op, aux = 0, edad, aux2 = 0;
+    int op, aux = 0, edad, aux2 = 0, validos = 0;
     char alumnos[20];
-    Alumno alumnosArr[DIM];
+    Alumno alumnosArr[DIM], alumnosArr2[DIM];
     Pila pilita;
     inicpila(&pilita);
     do
     {
         printf("Ingrese el ejercicio que quiere probar [1-8]: \n");
-        printf("                 _____________________________________________\n");
-        printf("                 | [1] Agregar elemento a archivo (INT)      |\n");
-        printf("                 | [2] Mostrar elemento de archivo (INT)     |\n");
-        printf("                 | [3] Contar elementos de archivo (INT)     |\n");
-        printf("                 | [4] Cargar archivo de alumnos             |\n");
-        printf("                 | [5] Mostar archivo de alumnos             |\n");
-        printf("                 | [6] Cargar 1 alumno en archivo            |\n");
-        printf("                 | [7] Pasar legajos a pila                  |\n");
-        printf("                 | [8] Contar alumnos con X edad             |\n");
-        printf("                 | [9] Mostrar alumnos entre Y edad y X edad |\n");
-        printf("                 | [10] Mostrar alumno mayor                 |\n");
-        printf("                 | [11] Cantidad de allumnos en X anio       |\n");
-        printf("                 | [12] |\n");
-        printf("                 | [13] |\n");
+        printf("                 ____________________________________________________\n");
+        printf("                 | [1] Agregar elemento a archivo (INT)             |\n");
+        printf("                 | [2] Mostrar elemento de archivo (INT)            |\n");
+        printf("                 | [3] Contar elementos de archivo (INT)            |\n");
+        printf("                 | [4] Cargar archivo de alumnos                    |\n");
+        printf("                 | [5] Mostar archivo de alumnos                    |\n");
+        printf("                 | [6] Cargar 1 alumno en archivo                   |\n");
+        printf("                 | [7] Pasar legajos a pila                         |\n");
+        printf("                 | [8] Contar alumnos con X edad                    |\n");
+        printf("                 | [9] Mostrar alumnos entre Y edad y X edad        |\n");
+        printf("                 | [10] Mostrar alumno mayor                        |\n");
+        printf("                 | [11] Cantidad de allumnos en X anio              |\n");
+        printf("                 | [12] Pasar arreglo a archivo y archivo a arreglo |\n");
+        printf("                 | [13] Contar la cantidad de regsitros en archivo  |\n");
         printf("                 | [14] |\n");
         printf("                 | [15] |\n");
         printf("                 | [16] |\n");
         printf("                 | [0] |\n");
-        printf("                 ---------------------------------------------\n");
+        printf("                 ----------------------------------------------------\n");
         scanf("%i", &op);
         system("cls");
         switch(op)
@@ -106,36 +117,28 @@ void menu()
                 }break;
             case 4:
                 {
-                    printf("Ingrese el nombre del archivo: ");
-                    scanf(" %s", alumnos);
-                    strcat(alumnos, ".bin");
+                    nombreDeArchivo(alumnos);
                     cargarArchivoAlumnos(alumnos);
                     system("pause");
                     system("cls");
                 }break;
             case 5:
                 {
-                    printf("Ingrese el nombre del archivo que quiere leer: ");
-                    scanf(" %s", alumnos);
-                    strcat(alumnos, ".bin");
+                    nombreDeArchivo(alumnos);
                     mostrarArchivoAlumnos(alumnos);
                     system("pause");
                     system("cls");
                 }break;
             case 6:
                 {
-                    printf("Ingrese el nombre del archivo que quiere leer: ");
-                    scanf(" %s", alumnos);
-                    strcat(alumnos, ".bin");
+                    nombreDeArchivo(alumnos);
                     agregarAlumnoArchivo(alumnos);
                     system("pause");
                     system("cls");
                 }break;
             case 7:
                 {
-                    printf("Ingrese el nombre del archivo que quiere leer: ");
-                    scanf(" %s", alumnos);
-                    strcat(alumnos, ".bin");
+                    nombreDeArchivo(alumnos);
                     pasarLegajoaPila(alumnos, &pilita);
                     mostrar(&pilita);
                     system("pause");
@@ -143,9 +146,7 @@ void menu()
                 }break;
             case 8:
                 {
-                    printf("Ingrese el nombre del archivo que quiere leer: ");
-                    scanf(" %s", alumnos);
-                    strcat(alumnos, ".bin");
+                    nombreDeArchivo(alumnos);
                     printf("Ingrese una edad: ");
                     scanf("%i", &edad);
                     aux = contarCantidadAlumnos(alumnos, edad);
@@ -155,9 +156,7 @@ void menu()
                 }break;
             case 9:
                 {
-                    printf("Ingrese el nombre del archivo que quiere leer: ");
-                    scanf(" %s", alumnos);
-                    strcat(alumnos, ".bin");
+                    nombreDeArchivo(alumnos);
                     printf("Ingrese la edad MENOR del rango: ");
                     scanf("%i", &aux);
                     printf("Ingrese la edad MAYOR del rango: ");
@@ -168,9 +167,7 @@ void menu()
                 }break;
             case 10:
                 {
-                    printf("Ingrese el nombre del archivo que quiere leer: ");
-                    scanf(" %s", alumnos);
-                    strcat(alumnos, ".bin");
+                    nombreDeArchivo(alumnos);
                     printf("El alumno mayor de edad es: ");
                     buscarAlumnoMayor(alumnos);
                     system("pause");
@@ -178,9 +175,7 @@ void menu()
                 }break;
             case 11:
                 {
-                    printf("Ingrese el nombre del archivo que quiere leer: ");
-                    scanf(" %s", alumnos);
-                    strcat(alumnos, ".bin");
+                    nombreDeArchivo(alumnos);
                     printf("De que anio desea saber la cantidad de alumnos?: ");
                     scanf("%i", &aux);
                     aux2 = cantidadAlumnosEnAnio(alumnos, aux);
@@ -190,16 +185,57 @@ void menu()
                 }break;
             case 12:
                 {
-                    printf("Ingrese el nombre del archivo que quiere leer: ");
-                    scanf(" %s", alumnos);
-                    strcat(alumnos, ".bin");
-                    crearArregloAlumno(alumnosArr, DIM);
+                    validos = crearArregloAlumno(alumnosArr, DIM);
+                    nombreDeArchivo(alumnos);
+                    cargarArchivoConArreglo(alumnosArr, validos, alumnos);
+                    printf("De arreglo a archivo: \n");
+                    mostrarArregloAlumno(alumnosArr, validos);
+                    aux = cargarArregloConArchivo(alumnosArr2, validos, alumnos);
+                    printf("De archivo a arreglo: \n");
+                    mostrarArregloAlumno(alumnosArr2, aux);
                     system("pause");
                     system("cls");
                 }break;
             case 13:
                 {
-
+                    nombreDeArchivo(alumnos);
+                    aux = cantidadDeRegistrosEnArchivo(alumnos);
+                    printf("El arreglo | %s | tiene |%i| registros\n", alumnos, aux);
+                    system("pause");
+                    system("cls");
+                }break;
+            case 14:
+                {
+                    printf("Ingrese el numero de registro que quiere mostrar: ");
+                    scanf("%i", &aux);
+                    nombreDeArchivo(alumnos);
+                    aux2 = cantidadDeRegistrosEnArchivo(alumnos);
+                    if(aux <= aux2)
+                    {
+                        mostrarRegistroElegido(alumnos, aux);
+                    }
+                    else
+                    {
+                        printf("\nEl registro no existe!!\n");
+                    }
+                    system("pause");
+                    system("cls");
+                }break;
+            case 15:
+                {
+                    printf("Ingrese el numero de registro que quiere modificar: ");
+                    scanf("%i", &aux);
+                    nombreDeArchivo(alumnos);
+                    aux2 = cantidadDeRegistrosEnArchivo(alumnos);
+                    if(aux <= aux2)
+                    {
+                        modificarRegistroElegido(alumnos, aux);
+                        mostrarArchivoAlumnos(alumnos);
+                    }
+                    else
+                    {
+                        printf("\nEl registro no existe!!\n");
+                    }
                     system("pause");
                     system("cls");
                 }break;
@@ -211,6 +247,13 @@ void menu()
                 }break;
             }
     }while(op != 0);
+}
+
+void nombreDeArchivo(char alumnos[])
+{
+    printf("Ingrese el nombre del archivo al que quiere acceder: ");
+    scanf(" %s", alumnos);
+    strcat(alumnos, ".bin");
 }
 
 //PUNTO 1
@@ -268,13 +311,19 @@ int contarElementosArchivoInt(char nombreArchivo[])
 Alumno crearAlumno()
 {
     Alumno alum;
+    char aux[20], aux2[20];
     printf("\nIngrese el legajo del alumno: ");
     scanf("%i", &alum.legajo);
-    printf("Ingrese el nombre y el apellido del alumno: ");
-    scanf(" %s", alum.nombreYApellido);
+    printf("Ingrese el nombre del alumno: ");
+    scanf(" %s", &aux);
+    printf("Inrgese el apellido del alumno: ");
+    scanf(" %s", &aux2);
+    strcat(aux, " ");
+    strcat(aux, aux2);
+    strcpy(alum.nombreYApellido, aux);
     printf("Ingrese la edad del alumno: ");
     scanf("%i", &alum.edad);
-    printf("Ingrese el anio que cursa el alumno: \n");
+    printf("Ingrese el anio que cursa el alumno: ");
     scanf("%i", &alum.anio);
     return alum;
 }
@@ -405,6 +454,7 @@ void mostrarAlumnosRangoEdad(char archivo[], int menor, int mayor)
                 printf(" %s", aux.nombreYApellido);
             }
         }
+        fclose(archi);
     }
 }
 
@@ -424,6 +474,7 @@ void buscarAlumnoMayor(char archivo[])
                 mayor = aux;
             }
         }
+        fclose(archi);
     }
     mostrarAlumno(mayor);
 }
@@ -445,6 +496,7 @@ int cantidadAlumnosEnAnio(char archivo[], int anio)
                 i++;
             }
         }
+        fclose(archi);
     }
     return i;
 }
@@ -454,10 +506,10 @@ int crearArregloAlumno(Alumno alumnosArr[], int dim)
 {
     int i;
     char op = 's';
-    for(i = 0; i < dim; i++)
+    for(i = 0; i < dim && op != 'n'; i++)
     {
         alumnosArr[i] = crearAlumno();
-        printf("Desea seguir cargando alumnos? (s / n)");
+        printf("Desea seguir cargando alumnos? (s / n): ");
         scanf(" %c", &op);
     }
     return i;
@@ -468,15 +520,135 @@ void cargarArchivoConArreglo(Alumno alumnosArr[], int validos, char archivo[])
     FILE *archi;
     Alumno aux;
     archi = fopen(archivo, "ab");
+    if(archi != NULL)
+    {
+        for(int i = 0; i < validos; i++)
+        {
+            aux = alumnosArr[i];
+            fwrite(&aux, sizeof(Alumno), 1, archi);
+        }
+        fclose(archi);
+    }
+}
+
+int cargarArregloConArchivo(Alumno alumnosArr[], int validos, char archivo[])
+{
+    int i = 0;
+    FILE *archi;
+    Alumno aux;
+    archi = fopen(archivo, "rb");
+    if(archi != NULL)
+    {
+        while(fread(&aux, sizeof(Alumno), 1, archi) > 0)
+        {
+            alumnosArr[i] = aux;
+            i++;
+        }
+        fclose(archi);
+    }
+    return i;
+}
+
+void mostrarArregloAlumno(Alumno alumnoArr[], int validos)
+{
     for(int i = 0; i < validos; i++)
     {
-        aux = alumnosArr[i]
-        if(archi != NULL)
-        {
-            while(!feof(archi))
-            {
-                fwrite(&aux, sizeof(Alumno), 1, archi);
-            }
-        }
+        mostrarAlumno(alumnoArr[i]);
     }
+}
+
+//PUNTO 13
+int cantidadDeRegistrosEnArchivo(char archivo[])
+{
+    int cant = 0;
+    FILE *archi;
+    archi = fopen(archivo, "rb");
+    if(archi != NULL)
+    {
+        fseek(archi, 0, SEEK_END);
+        cant = (ftell(archi) / sizeof(Alumno));
+        fclose(archi);
+    }
+    return cant;
+}
+
+//PUNTO 14
+void mostrarRegistroElegido(char archivo[], int num)
+{
+    FILE *archi;
+    Alumno aux;
+    archi = fopen(archivo, "rb");
+    if(archi != NULL)
+    {
+        if(!feof(archi))
+        {
+            fseek(archi, sizeof(Alumno)*num, SEEK_SET);
+            fread(&aux, sizeof(Alumno), 1, archi);
+            mostrarAlumno(aux);
+        }
+        fclose(archi);
+    }
+}
+
+//PUNTO 15
+void modificarRegistroElegido(char archivo[], int num)
+{
+    FILE *archi;
+    Alumno aux;
+    archi = fopen(archivo, "r+b");
+    if(archi != NULL)
+    {
+        fseek(archi, sizeof(Alumno)*(num-1), SEEK_SET);
+        if(!feof(archi))
+        {
+            fread(&aux, sizeof(Alumno), 1, archi);
+            fseek(archi, sizeof(Alumno)*(num-1), SEEK_SET);
+            aux = modificarCamposDeAlumnos(aux);
+            fwrite(&aux, sizeof(Alumno), 1, archi);
+        }
+        fclose(archi);
+    }
+}
+
+Alumno modificarCamposDeAlumnos(Alumno aux)
+{
+    char op;
+    char aux2[20];
+    char aux3[20];
+    printf("Quiere modificar el legajo? (s/n): ");
+    scanf(" %c", &op);
+    if(op == 's')
+    {
+        printf("\nIngrese el legajo: ");
+        scanf("%i", &aux.legajo);
+        printf("%i", aux.legajo);
+
+    }
+    printf("\nQuiere modificar el nombre y apellido? (s/n): ");
+    scanf(" %c", &op);
+    if(op == 's')
+    {
+        printf("Ingrese el nombre: ");
+        scanf(" %s", &aux2);
+        printf("Inrgese el apellido: ");
+        scanf(" %s", &aux3);
+        strcat(aux2, " ");
+        strcat(aux2, aux3);
+        strcpy(aux.nombreYApellido, aux2);
+    }
+    printf("Quiere modificar la edad? (s/n): ");
+    scanf(" %c", &op);
+    if(op == 's')
+    {
+        printf("\nIngrese la edad: ");
+        scanf("%i", &aux.edad);
+    }
+    printf("Quiere modificar el anio? (s/n): ");
+    scanf(" %c", &op);
+    if(op == 's')
+    {
+        printf("\nIngrese el anio: ");
+        scanf("%i", &aux.anio);
+    }
+    return aux;
 }
