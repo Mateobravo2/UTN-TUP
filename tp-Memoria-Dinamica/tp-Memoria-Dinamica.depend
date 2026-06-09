@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1780958027 source:d:\mateo\facultad\programacion i\tp-memoria-dinamica\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
